@@ -1,0 +1,29 @@
+{
+
+  "$schema": "https://raw.githubusercontent.com/reportportal/agent-net-nunit/master/src/ReportPortal.NUnitExtension/ReportPortal.config.schema",
+
+  "enabled": false,
+
+  "server": {
+
+    "url": "https://reportportal.epam.com",
+
+    "project": "ivan_dorosevich_personal",
+
+    "apiKey": "MP_jKuPid1nRliAEI0oDT89NqmOlwOJXvnT6EWX_xmgTduC0tehircLpBXLovY26gO0"
+
+  },
+
+  "launch": {
+
+    "name": "UI Report Portal Regression Tests",
+
+    "description": "",
+
+    "debugMode": true,
+
+    "attributes": [ "main", "dev" ]
+
+  }
+
+}
