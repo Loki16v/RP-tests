@@ -6,6 +6,9 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+      tafSolutionPath: '$(Build.SourcesDirectory)/report-portal-tests/ReportPortal.Tests'
+
 steps:
   - task: UseDotNet@2
     inputs:
@@ -18,14 +21,12 @@ steps:
     inputs:
       command: 'restore'
       projects: '$(tafSolutionPath)/*.sln'
-      feedsToUse: 'config'
-      nugetConfigPath: '$(tafSolutionPath)/nuget.config'
     displayName: 'Nuget restore'
 
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
       projects: '$(tafSolutionPath)/*.sln'
-      arguments: '-c Release --no-restore -nowarn:CS8632'
+      arguments: '-c Release --no-restore'
       workingDirectory: '$(tafSolutionPath)'
     displayName: 'Build TAF solution'
