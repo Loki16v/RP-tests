@@ -1,10 +1,17 @@
 name: Build
-
 on:
-  pull_request:
+  push:
+    branches: 
+      - '**'
     branches-ignore: 
       - 'main'
-
+  pull_request:
+    branches: 
+      - '**'
+    branches-ignore: 
+      - 'main'
+  workflow_dispatch:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
