@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-    SolutionPath: 'ReportPortal.Tests\ReportPortal.Tests.sln'
+    SolutionPath: 'ReportPortal.Tests/ReportPortal.Tests.sln'
 
 jobs:
   build:
