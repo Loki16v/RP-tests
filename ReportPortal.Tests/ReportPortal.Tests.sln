@@ -3,15 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPortal.E2E.Core", "ReportPortal.E2E.Core\ReportPortal.E2E.Core.csproj", "{F28E821B-ED5F-4AB9-ADE4-5B0E2CBB9CD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPortal.E2E.Common", "ReportPortal.E2E.Common\ReportPortal.E2E.Common.csproj", "{F28E821B-ED5F-4AB9-ADE4-5B0E2CBB9CD6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPortal.E2E.API.Tests", "ReportPortal.E2E.API.Tests\ReportPortal.E2E.API.Tests.csproj", "{071E91FD-7253-41D2-AD1B-34EB550759A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPortal.E2E.UI.Tests", "ReportPortal.E2E.UI.Tests\ReportPortal.E2E.UI.Tests.csproj", "{1E77E62E-E6EA-4AC7-91E4-0CE4D4CFF087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportPortal.E2E.API.Framework", "ReportPortal.E2E.API.Framework\ReportPortal.E2E.API.Framework.csproj", "{2DD10BDE-FA8B-4EE8-B97F-EB7613EB094E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPortal.E2E.API.Core.Business", "ReportPortal.E2E.API.Core.Business\ReportPortal.E2E.API.Core.Business.csproj", "{2DD10BDE-FA8B-4EE8-B97F-EB7613EB094E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F28E821B-ED5F-4AB9-ADE4-5B0E2CBB9CD6} = {F28E821B-ED5F-4AB9-ADE4-5B0E2CBB9CD6}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportPortal.E2E.UI.Framework", "ReportPortal.E2E.UI.Framework\ReportPortal.E2E.UI.Framework.csproj", "{A619B0CC-927B-4447-A799-53995BDC4A00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPortal.E2E.UI.Core.Business", "ReportPortal.E2E.UI.Core.Business\ReportPortal.E2E.UI.Core.Business.csproj", "{A619B0CC-927B-4447-A799-53995BDC4A00}"
+	ProjectSection(ProjectDependencies) = postProject
+		{071E91FD-7253-41D2-AD1B-34EB550759A4} = {071E91FD-7253-41D2-AD1B-34EB550759A4}
+		{2DD10BDE-FA8B-4EE8-B97F-EB7613EB094E} = {2DD10BDE-FA8B-4EE8-B97F-EB7613EB094E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

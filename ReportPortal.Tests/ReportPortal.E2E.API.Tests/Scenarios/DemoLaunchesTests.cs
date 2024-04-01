@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using ReportPortal.E2E.API.Framework;
-using ReportPortal.E2E.API.Framework.Extensions;
-using ReportPortal.E2E.API.Framework.Models.Responses;
-using ReportPortal.E2E.Core.Helpers;
+using ReportPortal.E2E.API.Core.Business;
+using ReportPortal.E2E.API.Core.Business.Models.Responses;
+using ReportPortal.E2E.Common.Extensions;
+using ReportPortal.E2E.Common.Helpers;
 
 namespace ReportPortal.E2E.API.Tests.Scenarios
 {

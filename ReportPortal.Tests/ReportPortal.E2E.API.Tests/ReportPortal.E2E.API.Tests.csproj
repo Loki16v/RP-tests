@@ -15,13 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ReportPortal.E2E.API.Framework\ReportPortal.E2E.API.Framework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\ReportPortal.E2E.API.Core.Business\ReportPortal.E2E.API.Core.Business.csproj" />
+    <ProjectReference Include="..\ReportPortal.E2E.API.Framework\ReportPortal.E2E.API.Core.Business.csproj" />
   </ItemGroup>
 
 </Project>
