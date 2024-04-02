@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.2.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.2.2" />
     <PackageReference Include="NUnit" Version="4.1.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="ReportPortal.NUnit" Version="4.6.0" />
@@ -16,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ReportPortal.E2E.API.Core.Business\ReportPortal.E2E.API.Core.Business.csproj" />
-    <ProjectReference Include="..\ReportPortal.E2E.API.Framework\ReportPortal.E2E.API.Core.Business.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,7 +14,7 @@ namespace ReportPortal.E2E.API.Core.Business.StepDefinitions
                 projectName = projectName
             };
             var endpoint = Endpoints.ManageProject;
-            Log.LogInformation($"CreateProject '{projectName}' with EntryType '{entryType}'\n Method: Get\n Endpoint: {endpoint}");
+            Log.LogInformation($"CreateProject '{projectName}' with EntryType '{entryType}'\n Method: Post\n Endpoint: {endpoint}");
             return _launchApiSteps.PostAsJsonAsync(endpoint, requestBody);
         }
 
@@ -25,5 +25,18 @@ namespace ReportPortal.E2E.API.Core.Business.StepDefinitions
             _launchApiSteps.DeleteAsync(endpoint);
         }
 
+        public Task<HttpResponseMessage> GetProjectsList()
+        {
+            var endpoint = $"{Endpoints.GetProjectList}";
+            Log.LogInformation($"GetProjectsList \n Method: Get\n Endpoint: {endpoint}");
+            return _launchApiSteps.GetAsync(endpoint);
+        }
+
+        public Task<HttpResponseMessage> SearchProjectUser(string projectName, string userName)
+        {
+            var endpoint = string.Format(Endpoints.SearchProjectUser, projectName, userName);
+            Log.LogInformation($"SearchProjectUser \n Method: Get\n Endpoint: {endpoint}");
+            return _launchApiSteps.GetAsync(endpoint);
+        }
     }
 }
