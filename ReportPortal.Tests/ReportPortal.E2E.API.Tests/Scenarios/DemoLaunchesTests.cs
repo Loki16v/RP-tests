@@ -1,13 +1,14 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using ReportPortal.E2E.API.Core.Business;
-using ReportPortal.E2E.API.Core.Business.Models.Responses;
-using ReportPortal.E2E.Common.Extensions;
-using ReportPortal.E2E.Common.Helpers;
+using ReportPortal.E2E.API.Business;
+using ReportPortal.E2E.API.Business.Models.Responses;
+using ReportPortal.E2E.Core.BaseTest;
+using ReportPortal.E2E.Core.Extensions;
+using ReportPortal.E2E.Core.Helpers;
 
 namespace ReportPortal.E2E.API.Tests.Scenarios
 {
-    public class DemoLaunchesTests : BaseTest
+    public class DemoLaunchesTests : BaseNunitTest
     {
         private static readonly string ProjectName = RandomValuesHelper.RandomString();
         private int _projectId;
