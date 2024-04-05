@@ -1,14 +1,15 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using ReportPortal.E2E.API.Core.Business;
-using ReportPortal.E2E.API.Core.Business.Models.Responses;
+using ReportPortal.E2E.API.Business;
+using ReportPortal.E2E.API.Business.BaseTest;
+using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.API.Tests.TestData;
-using ReportPortal.E2E.Common.Extensions;
+using ReportPortal.E2E.Core.Extensions;
 
 namespace ReportPortal.E2E.API.Tests.Scenarios.Nunit
 {
     [Parallelizable(ParallelScope.Fixtures)]
-    public class LaunchesQueryByAdminNunitTests : BaseTest
+    public class LaunchesQueryByAdminNunitTests : BaseNunitTest
     {
         protected override void Preconditions() { }
 

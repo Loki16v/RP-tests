@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
+	  <IsTestProject>true</IsTestProject>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -14,10 +14,8 @@
     <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="122.0.2365.63" />
     <PackageReference Include="SpecFlow" Version="3.9.74" />
     <PackageReference Include="SpecFlow.NUnit" Version="3.9.74" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ReportPortal.E2E.UI.Core.Business\ReportPortal.E2E.UI.Core.Business.csproj" />
+    <PackageReference Include="NUnit" Version="4.1.0" />
+    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.74" />
   </ItemGroup>
 
 </Project>
