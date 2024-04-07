@@ -3,7 +3,7 @@ using NUnit.Framework;
 using ReportPortal.E2E.Core.Logger;
 using ReportPortal.E2E.Core.Utility;
 
-namespace ReportPortal.E2E.Core.BaseTest
+namespace ReportPortal.E2E.API.Tests
 {
     public abstract class BaseNunitTest
     {

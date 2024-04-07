@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
-using ReportPortal.E2E.Core.BaseTest;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Helpers;
 
