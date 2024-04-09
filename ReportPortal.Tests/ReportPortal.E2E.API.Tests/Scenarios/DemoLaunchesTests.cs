@@ -31,7 +31,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
             var names = getLaunchesNamesResponse.GetResponse<List<string>>();
 
             names.Should().HaveCount(1);
-            names!.First().Should().Be("Demo Api Tests");
+            names!.Single().Should().Be("Demo Api Tests");
         }
 
         [OneTimeTearDown]

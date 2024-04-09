@@ -2,6 +2,9 @@
   "stepAssemblies": [
     {
       "assembly": "ReportPortal.E2E.UI.Business"
+    },
+    {
+      "assembly": "ReportPortal.E2E.API.Business"
     }
   ]
 }

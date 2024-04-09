@@ -1,10 +1,9 @@
-﻿using ReportPortal.E2E.API.Business.Models.Responses;
+﻿using ReportPortal.E2E.API.Business.Helpers;
+using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.Core.Extensions;
-using ReportPortal.E2E.UI.Business.Helpers;
 using TechTalk.SpecFlow;
-using Steps = ReportPortal.E2E.API.Business.Steps;
 
-namespace ReportPortal.E2E.UI.Business.StepDefinitions.API
+namespace ReportPortal.E2E.API.Business.StepDefinitions
 {
     [Binding]
     public class DemoLaunchesTestsStepDefinitions
@@ -13,6 +12,7 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions.API
         public void GivenNewProjectCreatedWithDemoLaunches(string projectName)
         {
             var response = Steps.AsAdminUser().CreateProject(projectName).GetAwaiter().GetResult();
+            response.EnsureSuccessStatusCode();
             CleanUpHelper.AddProjectId(response.GetResponse<CreateProjectResponse>().ProjectId);
             Steps.AsAdminUser().CreateDemoData(projectName).GetAwaiter().GetResult();
         }

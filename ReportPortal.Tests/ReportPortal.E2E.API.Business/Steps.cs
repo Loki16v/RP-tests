@@ -4,11 +4,11 @@ using ReportPortal.E2E.Core;
 using ReportPortal.E2E.Core.HttpMessageHandlers;
 using ReportPortal.E2E.Core.Logger;
 using ReportPortal.E2E.Core.Models;
-using ReportPortalApiSteps = ReportPortal.E2E.API.Business.StepDefinitions.ReportPortalApiSteps;
+using ReportPortalApiSteps = ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers.ReportPortalApiSteps;
 
 namespace ReportPortal.E2E.API.Business
 {
-    public class Steps
+    public static class Steps
     {
         private static ClientsHandler ClientsHandler =>
             TestsBootstrap.Instance.ServiceProvider.GetRequiredService<ClientsHandler>();
@@ -16,7 +16,7 @@ namespace ReportPortal.E2E.API.Business
         private static UserCredentials AdminCredentials =>
             TestsBootstrap.Instance.ServiceProvider.GetRequiredService<UserCredentials>();
 
-        private static readonly ILogger Log = TestsLogger.Create<Steps>();
+        private static readonly ILogger Log = TestsLogger.Create("LoginSteps");
 
         public static ReportPortalApiSteps AsAdminUser(bool refreshToken = false)
         {

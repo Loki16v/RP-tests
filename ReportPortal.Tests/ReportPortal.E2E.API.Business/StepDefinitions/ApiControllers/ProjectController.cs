@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ReportPortal.E2E.API.Business.Models;
 
-namespace ReportPortal.E2E.API.Business.StepDefinitions
+namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
 {
     public partial class ReportPortalApiSteps
     {
