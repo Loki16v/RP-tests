@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.Core.Logger;
 
-namespace ReportPortal.E2E.UI.Business.Helpers
+namespace ReportPortal.E2E.API.Business.Helpers
 {
     public static class CleanUpHelper
     {

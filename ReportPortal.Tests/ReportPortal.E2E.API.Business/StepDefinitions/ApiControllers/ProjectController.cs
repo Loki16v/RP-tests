@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ReportPortal.E2E.API.Business.Models;
 
-namespace ReportPortal.E2E.API.Business.StepDefinitions
+namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
 {
     public partial class ReportPortalApiSteps
     {
@@ -38,5 +38,6 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions
             Log.LogInformation($"SearchProjectUser \n Method: Get\n Endpoint: {endpoint}");
             return _launchApiSteps.GetAsync(endpoint);
         }
+
     }
 }

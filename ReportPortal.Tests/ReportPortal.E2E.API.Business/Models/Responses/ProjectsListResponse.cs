@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using ReportPortal.E2E.API.Business.Models.Responses.Items;
 
 namespace ReportPortal.E2E.API.Business.Models.Responses
 {

@@ -1,7 +1,7 @@
 ﻿using ReportPortal.E2E.UI.Business.Helpers;
 using TechTalk.SpecFlow;
 
-namespace ReportPortal.E2E.UI.Business.StepDefinitions.API
+namespace ReportPortal.E2E.UI.Business.StepDefinitions
 {
     [Binding]
     public class LoginStepDefinitions

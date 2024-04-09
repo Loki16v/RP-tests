@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportPortal.E2E.API.Business;
-using ReportPortal.E2E.API.Business.BaseTest;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.Core.Extensions;
 

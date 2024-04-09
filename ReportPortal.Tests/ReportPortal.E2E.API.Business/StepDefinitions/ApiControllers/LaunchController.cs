@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReportPortal.E2E.API.Business.Models;
 
-namespace ReportPortal.E2E.API.Business.StepDefinitions
+namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
 {
     public partial class ReportPortalApiSteps
     {
@@ -22,7 +22,8 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions
         public Task<HttpResponseMessage> GetLatestLaunchByFilter(string projectName, string query)
         {
             var endpoint = string.Format(Endpoints.GetLatestLaunchByFilter, projectName) + query;
-            Log.LogInformation($"GetLatestLaunchByFilter for project '{projectName}'\n Method: Get\n Endpoint: {endpoint}");
+            Log.LogInformation(
+                $"GetLatestLaunchByFilter for project '{projectName}'\n Method: Get\n Endpoint: {endpoint}");
             return _launchApiSteps.GetAsync(endpoint);
         }
     }

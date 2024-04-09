@@ -3,7 +3,7 @@ using ReportPortal.E2E.Core;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models;
 
-namespace ReportPortal.E2E.API.Business.Helper
+namespace ReportPortal.E2E.API.Business.Helpers
 {
     public static class UsersHelper
     {

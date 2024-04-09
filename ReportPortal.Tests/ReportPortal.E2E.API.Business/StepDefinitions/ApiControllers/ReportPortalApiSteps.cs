@@ -4,13 +4,13 @@ using ReportPortal.E2E.Core;
 using ReportPortal.E2E.Core.Logger;
 using ReportPortal.E2E.Core.Models;
 
-namespace ReportPortal.E2E.API.Business.StepDefinitions
+namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
 {
     public partial class ReportPortalApiSteps
     {
         private readonly HttpClient _launchApiSteps;
         private readonly string _baseUrl = TestsBootstrap.Instance.ServiceProvider.GetRequiredService<ReportPortalConfig>().BaseUrl;
-        private static readonly ILogger Log = TestsLogger.Create<API.Business.StepDefinitions.ReportPortalApiSteps>();
+        private static readonly ILogger Log = TestsLogger.Create<ReportPortalApiSteps>();
         
 
         public ReportPortalApiSteps(HttpMessageHandler httpMessageHandler)

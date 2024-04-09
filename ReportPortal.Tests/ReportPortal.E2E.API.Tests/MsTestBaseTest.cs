@@ -1,21 +1,20 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportPortal.E2E.API.Business;
-using ReportPortal.E2E.API.Business.Helper;
+using ReportPortal.E2E.API.Business.Helpers;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models;
 
-namespace ReportPortal.E2E.API.Tests.Scenarios.Nunit
+namespace ReportPortal.E2E.API.Tests
 {
-    [SetUpFixture]
-    public class GlobalSetupNunit
+    public abstract class MsTestBaseTest
     {
         private const string NewUser = "new_user";
         protected const string ProjectName = "demo-project";
-        public static UserCredentials NewUserCredentials;
+        protected static UserCredentials NewUserCredentials;
 
-        [OneTimeSetUp]
-        public void Setup()
+        [TestInitialize]
+        public void TestInitialize()
         {
             var companiesListResponse = Steps.AsAdminUser().GetProjectsList().GetAwaiter().GetResult();
             companiesListResponse.EnsureSuccessStatusCode();
@@ -25,6 +24,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.Nunit
                 Steps.AsAdminUser().CreateProject(ProjectName).GetAwaiter().GetResult();
                 Steps.AsAdminUser().CreateDemoData(ProjectName).GetAwaiter().GetResult();
             }
+
             NewUserCredentials = UsersHelper.CreateNewUser(ProjectName, NewUser);
         }
     }

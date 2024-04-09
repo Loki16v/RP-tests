@@ -3,7 +3,7 @@ using ReportPortal.E2E.UI.Business.Contexts;
 using ReportPortal.E2E.UI.Business.Pages;
 using TechTalk.SpecFlow;
 
-namespace ReportPortal.E2E.UI.Business.StepDefinitions.UI
+namespace ReportPortal.E2E.UI.Business.StepDefinitions
 {
     [Binding]
     public class DemoLaunchesTestsStepDefinitions
@@ -23,7 +23,7 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions.UI
             var launchesList = LaunchesContext.GetLaunches();
 
             launchesList.Should().HaveCount(expectedCount);
-            
+
         }
     }
 }

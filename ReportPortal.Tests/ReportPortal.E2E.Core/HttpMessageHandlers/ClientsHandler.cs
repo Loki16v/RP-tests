@@ -25,7 +25,7 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers
 
             else if (IsTokenExpired(userCredentials))
             {
-                _authenticationHandlers.TryRemove(userCredentials.UserName, out _);
+                _authenticationHandlers.Remove(userCredentials.UserName, out _);
                 await CreateAuthToken(userCredentials);
             }
 

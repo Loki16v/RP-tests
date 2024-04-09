@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
+using ReportPortal.E2E.API.Business.Helpers;
 using ReportPortal.E2E.Core.Driver;
 using ReportPortal.E2E.Core.Logger;
-using ReportPortal.E2E.UI.Business.Helpers;
 using TechTalk.SpecFlow;
 
 namespace ReportPortal.E2E.UI.Business
