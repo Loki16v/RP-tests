@@ -6,15 +6,17 @@ using TechTalk.SpecFlow;
 namespace ReportPortal.E2E.API.Business.StepDefinitions
 {
     [Binding]
-    public class DemoLaunchesTestsStepDefinitions
+    public static class DemoLaunchesTestsStepDefinitions
     {
         [Given(@"New project '([^']*)' created with demo launches")]
-        public void GivenNewProjectCreatedWithDemoLaunches(string projectName)
+        public static void GivenNewProjectCreatedWithDemoLaunches(string projectName)
         {
-            var response = Steps.AsAdminUser().CreateProject(projectName).GetAwaiter().GetResult();
-            response.EnsureSuccessStatusCode();
-            CleanUpHelper.AddProjectId(response.GetResponse<CreateProjectResponse>().ProjectId);
-            Steps.AsAdminUser().CreateDemoData(projectName).GetAwaiter().GetResult();
+            var createProjectResponse = Steps.AsAdminUser().CreateProject(projectName).GetAwaiter().GetResult();
+            createProjectResponse.EnsureSuccessStatusCode();
+            CleanUpHelper.AddProjectId(createProjectResponse.GetResponse<CreateProjectResponse>().ProjectId);
+
+            var generateDataResponse = Steps.AsAdminUser().CreateDemoData(projectName).GetAwaiter().GetResult();
+            generateDataResponse.EnsureSuccessStatusCode();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
-using ReportPortal.E2E.API.Business.Models.Responses;
+using ReportPortal.E2E.API.Business.StepDefinitions;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Helpers;
 
@@ -10,16 +10,10 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
     public class DemoLaunchesTests : BaseNunitTest
     {
         private static readonly string ProjectName = RandomValuesHelper.RandomString();
-        private int _projectId;
 
         protected override void Preconditions()
         {
-            var createProjectResponse = Steps.AsAdminUser().CreateProject(ProjectName).GetAwaiter().GetResult();
-            createProjectResponse.EnsureSuccessStatusCode();
-            _projectId = createProjectResponse.GetResponse<CreateProjectResponse>().ProjectId;
-
-            var generateDataResponse = Steps.AsAdminUser().CreateDemoData(ProjectName).GetAwaiter().GetResult();
-            generateDataResponse.EnsureSuccessStatusCode();
+            DemoLaunchesTestsStepDefinitions.GivenNewProjectCreatedWithDemoLaunches(ProjectName);
         }
 
         //Dummy test
@@ -33,12 +27,5 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
             names.Should().HaveCount(1);
             names!.Single().Should().Be("Demo Api Tests");
         }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            Steps.AsAdminUser().DeleteProject(_projectId);
-        }
-
     }
 }
