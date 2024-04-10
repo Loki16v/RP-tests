@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	  <IsTestProject>true</IsTestProject>
@@ -19,6 +19,12 @@
   <ItemGroup>
     <ProjectReference Include="..\ReportPortal.E2E.API.Business\ReportPortal.E2E.API.Business.csproj" />
     <ProjectReference Include="..\ReportPortal.E2E.Core\ReportPortal.E2E.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\LatestLaunchQueryTestData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

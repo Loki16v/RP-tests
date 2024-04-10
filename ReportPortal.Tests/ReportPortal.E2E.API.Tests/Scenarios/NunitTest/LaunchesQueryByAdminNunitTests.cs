@@ -2,15 +2,22 @@
 using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
+using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
 using ReportPortal.E2E.API.Tests.TestData;
 using ReportPortal.E2E.Core.Extensions;
+using ReportPortal.E2E.Core.Models.TestDataModel;
+using ReportPortal.E2E.Core.Utility;
 
-namespace ReportPortal.E2E.API.Tests.Scenarios.Nunit
+namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest
 {
-    [Parallelizable(ParallelScope.Fixtures)]
+    [Parallelizable(ParallelScope.All)]
     public class LaunchesQueryByAdminNunitTests : BaseNunitTest
     {
         protected override void Preconditions() { }
+
+        private static readonly List<string[]> LatestLaunchQueryTestData =
+            TestDataUtility.GetTestDataFromJson<LatestLaunchQueryDataModel>("LatestLaunchQueryTestData.json").LatestLaunchQuery;
+
 
         [Test, TestCaseSource(typeof(QueryTestData), nameof(QueryTestData.LaunchesQuery))]
         public void Filter_Demo_Launches_By_Query(string query, int count)
@@ -20,7 +27,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.Nunit
             launchesList.Should().HaveCount(count);
         }
 
-        [Test, TestCaseSource(typeof(QueryTestData), nameof(QueryTestData.LatestLaunchQuery))]
+        [Test, TestCaseSource(nameof(LatestLaunchQueryTestData))]
         public void Filter_Latest_Launch_By_Query(string query)
         {
             var launchesList = Steps.AsAdminUser().GetLaunchesByFilter(ProjectName, query).GetAwaiter().GetResult()

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.StepDefinitions;
+using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Helpers;
 

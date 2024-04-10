@@ -5,20 +5,21 @@ using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models;
 
-namespace ReportPortal.E2E.API.Tests
+namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest.BaseTest
 {
+    [TestClass]
     public abstract class MsTestBaseTest
     {
         private const string NewUser = "new_user";
         protected const string ProjectName = "demo-project";
-        protected static UserCredentials NewUserCredentials;
+        public static UserCredentials NewUserCredentials;
 
-        [TestInitialize]
-        public void TestInitialize()
+        [AssemblyInitialize]
+        public static void AssemblyInitialize(TestContext context)
         {
-            var companiesListResponse = Steps.AsAdminUser().GetProjectsList().GetAwaiter().GetResult();
-            companiesListResponse.EnsureSuccessStatusCode();
-            var projectsList = companiesListResponse.GetResponse<ProjectsListResponse>();
+            var projectsListResponse = Steps.AsAdminUser().GetProjectsList().GetAwaiter().GetResult();
+            projectsListResponse.EnsureSuccessStatusCode();
+            var projectsList = projectsListResponse.GetResponse<ProjectsListResponse>();
             if (!projectsList.ProjectsList.Any(p => p.ProjectName.Equals(ProjectName)))
             {
                 Steps.AsAdminUser().CreateProject(ProjectName).GetAwaiter().GetResult();

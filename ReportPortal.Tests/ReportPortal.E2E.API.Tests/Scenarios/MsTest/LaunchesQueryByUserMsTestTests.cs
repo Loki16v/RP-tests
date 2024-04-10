@@ -2,7 +2,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
+using ReportPortal.E2E.API.Tests.Scenarios.MsTest.BaseTest;
 using ReportPortal.E2E.Core.Extensions;
+using ReportPortal.E2E.Core.Models.TestDataModel;
+using ReportPortal.E2E.Core.Utility;
 
 namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
 {
@@ -35,7 +38,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
 
         private static List<string[]> GetLatestLaunchQuery()
         {
-            return TestData.QueryTestData.LatestLaunchQuery;
+            return TestDataUtility.GetTestDataFromJson<LatestLaunchQueryDataModel>("LatestLaunchQueryTestData.json").LatestLaunchQuery;
         }
         private static List<object[]> GetLaunchesQuery()
         {

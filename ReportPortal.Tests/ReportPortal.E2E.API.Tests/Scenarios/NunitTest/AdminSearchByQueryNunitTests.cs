@@ -2,15 +2,17 @@
 using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
+using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
 using ReportPortal.E2E.API.Tests.TestData;
 using ReportPortal.E2E.Core.Extensions;
 
-namespace ReportPortal.E2E.API.Tests.Scenarios.Nunit
+namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest
 {
-    [Parallelizable(ParallelScope.Fixtures)]
+    [Parallelizable(ParallelScope.All)]
     public class AdminSearchByQueryNunitTests : BaseNunitTest
     {
         protected override void Preconditions() { }
+
 
         [Test, TestCaseSource(typeof(QueryTestData), nameof(QueryTestData.SuperAdminQuery))]
         public void Search_Admin_By_Query(string query, int id)

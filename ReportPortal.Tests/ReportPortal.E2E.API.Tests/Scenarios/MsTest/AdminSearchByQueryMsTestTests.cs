@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
+using ReportPortal.E2E.API.Tests.Scenarios.MsTest.BaseTest;
 using ReportPortal.E2E.Core.Extensions;
 
 
