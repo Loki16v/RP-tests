@@ -38,6 +38,6 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
             Log.LogInformation($"SearchProjectUser \n Method: Get\n Endpoint: {endpoint}");
             return _launchApiSteps.GetAsync(endpoint);
         }
-
+      
     }
 }

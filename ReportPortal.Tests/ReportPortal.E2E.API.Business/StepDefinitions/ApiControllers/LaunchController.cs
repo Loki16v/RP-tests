@@ -11,7 +11,7 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
             Log.LogInformation($"GetLaunchNames for project '{projectName}'\n Method: Get\n Endpoint: {endpoint}");
             return _launchApiSteps.GetAsync(endpoint);
         }
-
+      
         public Task<HttpResponseMessage> GetLaunchesByFilter(string projectName, string query)
         {
             var endpoint = string.Format(Endpoints.GetLaunchesByFilter, projectName) + query;
