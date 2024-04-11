@@ -15,11 +15,11 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
         [TestMethod]
         [DataTestMethod]
         [DynamicData(nameof(GetLaunchesQuery), DynamicDataSourceType.Method)]
-        public void Filter_Demo_Launches_By_Query(string query, int count)
+        public void Filter_Demo_Launches_By_Query(string query, Int64 count)
         {
             var launchesList = Steps.AsUser(NewUserCredentials).GetLaunchesByFilter(ProjectName, query).GetAwaiter().GetResult()
                 .GetResponse<GetLaunchesResponse>().Launches;
-            launchesList.Should().HaveCount(count);
+            launchesList.Should().HaveCount((int)count);
         }
 
         [TestMethod]
@@ -42,7 +42,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
         }
         private static List<object[]> GetLaunchesQuery()
         {
-            return TestData.QueryTestData.LaunchesQuery;
+            return TestDataUtility.GetPrimitiveDataFromJson("LaunchesQueryTestData.json");
         }
     }
 }

@@ -1,0 +1,7 @@
+ [
+   [ "?filter.eq.status=passed", 1 ],
+   [ "?filter.eq.status=failed", 4 ],
+   [ "?filter.eq.hasRetries=true", 4 ],
+   [ "?filter.eq.hasRetries=false", 1 ],
+   [ "?filter.eq.name=Demo Api Tests", 5 ]
+ ]

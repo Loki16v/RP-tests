@@ -3,8 +3,8 @@ using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
-using ReportPortal.E2E.API.Tests.TestData;
 using ReportPortal.E2E.Core.Extensions;
+using ReportPortal.E2E.Core.Utility;
 
 namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest
 {
@@ -13,12 +13,14 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest
     {
         protected override void Preconditions() { }
 
+        private static readonly List<object[]> SuperAdminQuery = TestDataUtility.GetPrimitiveDataFromJson("SuperAdminQueryTestData.json");
 
-        [Test, TestCaseSource(typeof(QueryTestData), nameof(QueryTestData.SuperAdminQuery))]
-        public void Search_Admin_By_Query(string query, int id)
+
+        [Test, TestCaseSource(nameof(SuperAdminQuery))]
+        public void Search_Admin_By_Query(string query, Int64 id)
         {
             var userListResponse = Steps.AsAdminUser().SearchUsers(query).GetAwaiter().GetResult().GetResponse<SearchUsersResponse>().UserList;
-            userListResponse.Should().Contain(x => x.Id.Equals(id));
+            userListResponse.Should().Contain(x => x.Id.Equals((int)id));
         }
     }
 }

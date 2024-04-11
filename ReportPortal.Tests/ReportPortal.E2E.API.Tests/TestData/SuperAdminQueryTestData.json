@@ -1,0 +1,7 @@
+[
+  [ "?filter.eq.email=superadminemail@domain.com", 1 ],
+  [ "?filter.eq.fullName=tester", 1 ],
+  [ "?filter.eq.role=ADMINISTRATOR", 1 ],
+  [ "?filter.eq.type=INTERNAL", 1 ],
+  [ "?filter.eq.user=superadmin", 1 ]
+]
