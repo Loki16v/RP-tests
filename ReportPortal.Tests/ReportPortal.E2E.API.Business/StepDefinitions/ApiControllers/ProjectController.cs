@@ -38,6 +38,16 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
             Log.LogInformation($"SearchProjectUser \n Method: Get\n Endpoint: {endpoint}");
             return _launchApiSteps.GetAsync(endpoint);
         }
-      
+
+        public Task<HttpResponseMessage> AddUserToProject(string projectName, string userName, string userRole = "MEMBER")
+        {
+            var body = new
+            {
+                userNames = new[]{ new Dictionary<string, string>{ {userName, userRole} }}
+            };
+            var endpoint = string.Format(Endpoints.AddUserToProject, projectName);
+            Log.LogInformation($"AddUserToProject user name:{userName} \n Method: Put\n Endpoint: {endpoint}");
+            return _launchApiSteps.PutAsJsonAsync(endpoint, body);
+        }
     }
 }

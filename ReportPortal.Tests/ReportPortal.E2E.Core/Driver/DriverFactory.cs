@@ -1,40 +1,42 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 
 namespace ReportPortal.E2E.Core.Driver
 {
-    public static class DriverFactory
+    public class DriverFactory
     {
-        private static IWebDriver _driver;
+        private static readonly int DefaultTimeOut =
+            TestsBootstrap.Instance.Configuration.GetSection("DefaultTimeout").Get<int>();
+        private static readonly int PageLoadTimeOut =
+            TestsBootstrap.Instance.Configuration.GetSection("PageLoadTimeOut").Get<int>();
 
-        public static IWebDriver GetDriver()
+        private IWebDriver _driver;
+
+        public DriverFactory(string browser)
+        {
+            _driver = browser switch
+            {
+                "Chrome" => GetChromeInstanceWithOptions(),
+                "Edge" => GetEdgeInstanceWithOptions(),
+                _ => throw new NotSupportedException($"BrowserType {browser} is not supported.")
+            };
+        }
+        public IWebDriver GetDriver()
         {
             return _driver;
         }
 
-        public static void CloseDriver()
+        public void CloseDriver()
         {
             _driver.Quit();
             _driver = null;
         }
 
-        public static IWebDriver InitDriver(string browser)
-        {
-            switch (browser)
-            {
-                case "Chrome":
-                    _driver = GetChromeInstanceWithOptions();
-                    return _driver;
-                case "Edge":
-                    _driver = GetEdgeInstanceWithOptions();
-                    return _driver;
-                default:
-                    throw new NotSupportedException($"BrowserType {browser} is not supported.");
-            }
-        }
+        #region Private Methods
 
-        private static ChromeDriver GetChromeInstanceWithOptions()
+        private ChromeDriver GetChromeInstanceWithOptions()
         {
             var service = ChromeDriverService.CreateDefaultService(AppDomain.CurrentDomain.BaseDirectory);
             service.LogPath = $"{AppDomain.CurrentDomain.BaseDirectory}ChromeDriver.log";
@@ -58,12 +60,12 @@ namespace ReportPortal.E2E.Core.Driver
             options.AddArgument("--disable-popup-blocking");
 
             var driver = new ChromeDriver(service, options);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(DefaultTimeOut);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(PageLoadTimeOut);
             return driver;
         }
 
-        private static EdgeDriver GetEdgeInstanceWithOptions()
+        private EdgeDriver GetEdgeInstanceWithOptions()
         {
             var service = EdgeDriverService.CreateDefaultService(AppDomain.CurrentDomain.BaseDirectory);
             service.LogPath = $"{AppDomain.CurrentDomain.BaseDirectory}EdgeDriver.log";
@@ -87,9 +89,11 @@ namespace ReportPortal.E2E.Core.Driver
             options.AddArgument("--disable-popup-blocking");
 
             var driver = new EdgeDriver(service, options);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(DefaultTimeOut); 
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(PageLoadTimeOut);
             return driver;
         }
+
+        #endregion
     }
 }

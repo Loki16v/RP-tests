@@ -18,7 +18,8 @@ namespace ReportPortal.E2E.Core
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", true, false);
+                .AddJsonFile("appsettings.json", true, false)
+                .AddJsonFile("TestUsers.json", true, false);
 
             Configuration = builder.Build();
             ServiceProvider = ConfigureServices();
