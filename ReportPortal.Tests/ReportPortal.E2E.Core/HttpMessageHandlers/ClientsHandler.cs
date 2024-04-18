@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Collections.Concurrent;
+using System.Net.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ReportPortal.E2E.Core.Models;
 
@@ -6,12 +7,12 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers
 {
     public class ClientsHandler
     {
-        private static Dictionary<string, AuthorizationMessageHandler> _authenticationHandlers;
+        private static ConcurrentDictionary<string, AuthorizationMessageHandler> _authenticationHandlers;
         private readonly HttpClient _httpClient;
 
         public ClientsHandler()
         {
-            _authenticationHandlers = new Dictionary<string, AuthorizationMessageHandler>();
+            _authenticationHandlers = new ConcurrentDictionary<string, AuthorizationMessageHandler>();
             _httpClient = new HttpClient();
         }
 
@@ -24,7 +25,7 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers
 
             else if (IsTokenExpired(userCredentials))
             {
-                _authenticationHandlers.Remove(userCredentials.UserName);
+                _authenticationHandlers.Remove(userCredentials.UserName, out _);
                 await CreateAuthToken(userCredentials);
             }
 

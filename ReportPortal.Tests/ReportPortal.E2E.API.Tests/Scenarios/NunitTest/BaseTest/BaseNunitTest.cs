@@ -2,13 +2,17 @@
 using NUnit.Framework;
 using ReportPortal.E2E.API.Business.Helpers;
 using ReportPortal.E2E.Core.Logger;
+using ReportPortal.E2E.Core.Models;
 using ReportPortal.E2E.Core.Utility;
 
-namespace ReportPortal.E2E.API.Tests
+namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest
 {
     public abstract class BaseNunitTest
     {
         protected abstract void Preconditions();
+
+        protected const string ProjectName = "demo-project";
+        protected static UserCredentials NewUserCredentials = NunitGlobalSetUp.NewUserCredentials;
 
         protected ILogger Log { get; }
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	  <IsTestProject>true</IsTestProject>
@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.3.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.3.1" />
     <PackageReference Include="NUnit" Version="4.1.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="ReportPortal.NUnit" Version="4.6.0" />
@@ -17,6 +19,18 @@
   <ItemGroup>
     <ProjectReference Include="..\ReportPortal.E2E.API.Business\ReportPortal.E2E.API.Business.csproj" />
     <ProjectReference Include="..\ReportPortal.E2E.Core\ReportPortal.E2E.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\LatestLaunchQueryTestData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\LaunchesQueryTestData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\SuperAdminQueryTestData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

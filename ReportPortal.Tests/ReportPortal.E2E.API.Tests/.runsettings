@@ -1,0 +1,11 @@
+﻿<RunSettings>
+	<NUnit>
+		<NumberOfTestWorkers>25</NumberOfTestWorkers>
+	</NUnit>
+	<MSTest>
+		<Parallelize>
+			<Workers>25</Workers>
+			<Scope>MethodLevel</Scope>
+		</Parallelize>
+	</MSTest>
+</RunSettings>

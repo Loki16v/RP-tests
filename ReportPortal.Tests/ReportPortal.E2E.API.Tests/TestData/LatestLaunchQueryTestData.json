@@ -1,0 +1,9 @@
+{
+  "LatestLaunchQuery": [
+    [ "?filter.eq.status=passed" ],
+    [ "?filter.eq.status=failed" ],
+    [ "?filter.eq.hasRetries=true" ],
+    [ "?filter.eq.hasRetries=false" ],
+    [ "?filter.eq.name=Demo Api Tests" ]
+  ]
+}

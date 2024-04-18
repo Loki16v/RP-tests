@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.StepDefinitions;
+using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Helpers;
 
@@ -9,7 +10,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
 {
     public class DemoLaunchesTests : BaseNunitTest
     {
-        private static readonly string ProjectName = RandomValuesHelper.RandomString();
+        private new static readonly string ProjectName = RandomValuesHelper.RandomString();
 
         protected override void Preconditions()
         {
