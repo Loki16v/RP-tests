@@ -1,7 +1,22 @@
  [
-   [ "?filter.eq.status=passed", 1 ],
-   [ "?filter.eq.status=failed", 4 ],
-   [ "?filter.eq.hasRetries=true", 4 ],
-   [ "?filter.eq.hasRetries=false", 1 ],
-   [ "?filter.eq.name=Demo Api Tests", 5 ]
+  {
+    "query": "?filter.eq.status=passed",
+    "number": 1
+  },
+  {
+    "query": "?filter.eq.status=failed",
+    "number": 4
+  },
+  {
+    "query": "?filter.eq.hasRetries=true",
+    "number": 4
+  },
+  {
+    "query": "?filter.eq.hasRetries=false",
+    "number": 1
+  },
+  {
+    "query": "?filter.eq.name=Demo Api Tests",
+    "number": 5
+  }
  ]
