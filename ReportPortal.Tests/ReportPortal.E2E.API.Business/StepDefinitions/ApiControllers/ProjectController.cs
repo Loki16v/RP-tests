@@ -38,7 +38,7 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
             Log.LogInformation($"SearchProjectUser \n Method: Get\n Endpoint: {endpoint}");
             return _launchApiSteps.GetAsync(endpoint);
         }
-
+      
         public Task<HttpResponseMessage> AddUserToProject(string projectName, string userName, string userRole = "MEMBER")
         {
             var body = new
