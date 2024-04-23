@@ -3,8 +3,8 @@
 As user I want to be able to create new project with demo launches
 
 Background:
-	Given I am logged in as SuperAdmin
-	When I am on Launch page of 'default-project'
+	Given I am logged in as 'superadmin'
+	When I am on Launch page of 'default-project' project
 	
 
 Scenario: Demo launches count
@@ -17,6 +17,7 @@ Scenario: Demo launches count
 		| 20    | 10     | 8      | 2       |
 		| 15    | 5      | 9      | 1       |
 		| 10    | 1      | 9      | 0       |
+	But Actions button is disabled by default
 
 Scenario: Demo latest launch
 	When I am switch to 'Latest' launches view
@@ -24,4 +25,5 @@ Scenario: Demo latest launch
 	And Launches contains execution information
 		| Total | Passed | Failed | Skipped |
 		| 30    | 30     | 0      | 0       |
+	But Actions button is disabled by default
 

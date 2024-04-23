@@ -14,11 +14,6 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions
 
         private readonly LoginContext _loginContext;
 
-        [Given(@"I am logged in as SuperAdmin")]
-        public void GivenIAmLoggedInAsSuperAdmin()
-        {
-            _loginContext.LoginAsAdmin();
-        }
 
         [Given(@"I am logged in as '([^']*)'")]
         public void GivenIAmLoggedInAs(string userName)

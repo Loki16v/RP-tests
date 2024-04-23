@@ -21,11 +21,7 @@ namespace ReportPortal.E2E.UI.Business.Contexts
         private const string ApplicationSettingsKey = "applicationSettings";
         private NavigationContext NavigationContext => new(Driver);
 
-        public void LoginAsAdmin()
-        {
-            LoginAs(AdminUser.UserName);
-        }
-
+        
         public void LoginAs(string user)
         {
             if (user.Equals(_currentUser)) return;
@@ -34,8 +30,6 @@ namespace ReportPortal.E2E.UI.Business.Contexts
             _currentUser = user;
         }
 
-
-        #region Private Methods
 
         private void PerformLogin(UserCredentials user)
         {
@@ -57,8 +51,5 @@ namespace ReportPortal.E2E.UI.Business.Contexts
         {
             Driver.ClearLocalStorage();
         }
-
-        #endregion
-
     }
 }

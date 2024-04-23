@@ -33,7 +33,7 @@ namespace ReportPortal.E2E.UI.Business
             var browserType = TestContext.Parameters["Browser"];
             Log.LogInformation($"Start tests run with browser {browserType}");
             var driverFactory = new DriverFactory(browserType);
-            featureContext.Add(ContextKeys.Driver.ToString(), driverFactory);
+            featureContext.Add(ContextKeys.DriverFactory.ToString(), driverFactory);
             featureContext.Add(ContextKeys.LoginContext.ToString(), new LoginContext(driverFactory.GetDriver()));
 
             Log.LogInformation($"************************ Feature *{featureContext.FeatureInfo.Title}* starting ************************** \r\n");
@@ -43,7 +43,7 @@ namespace ReportPortal.E2E.UI.Business
         public static void AfterFeature(FeatureContext featureContext)
         {
             Log.LogInformation($"************************ Feature *{featureContext.FeatureInfo.Title}* ended *************************** \r\n\r\n");
-            featureContext.Get<DriverFactory>(ContextKeys.Driver.ToString()).CloseDriver();
+            featureContext.Get<DriverFactory>(ContextKeys.DriverFactory.ToString()).CloseDriver();
         }
 
         [BeforeScenario]

@@ -2,10 +2,11 @@
 
 Assigned users with different roles are able to view launches
 
+Rule: Users must be assinged on test project
 
 Scenario Outline: Demo launches available for all roles members
 	Given I am logged in as '<user>'
-	When I am on Launch page of 'default-project'
+	When I am on Launch page of 'default-project' project
 	And I am switch to 'All' launches view
 	Then '<LauncesCount>' launches are displayed
 Examples:
@@ -18,7 +19,7 @@ Examples:
 
 Scenario Outline: Latest Demo launch available for all roles members
 	Given I am logged in as '<user>'
-	When I am on Launch page of 'default-project'
+	When I am on Launch page of 'default-project' project
 	And I am switch to 'Latest' launches view
 	Then '1' launches are displayed
 	And Launches contains execution information

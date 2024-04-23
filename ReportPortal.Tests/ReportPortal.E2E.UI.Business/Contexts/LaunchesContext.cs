@@ -24,5 +24,10 @@ namespace ReportPortal.E2E.UI.Business.Contexts
             Driver.WaitElementAndClick(LaunchesPage.LaunchesDropdownItem(option));
             return this;
         }
+
+        public bool IsActionsEnabled()
+        {
+            return !LaunchesPage.ActionsButton.GetAttribute("class").Contains("disabled");
+        }
     }
 }

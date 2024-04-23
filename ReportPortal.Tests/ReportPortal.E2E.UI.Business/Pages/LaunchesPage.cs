@@ -4,9 +4,10 @@ using ReportPortal.E2E.UI.Business.Pages.Containers;
 
 namespace ReportPortal.E2E.UI.Business.Pages
 {
-    public class LaunchesPage : BasePage
+    internal class LaunchesPage : BasePage
     {
         public const string Url = "/ui/#{projectName}/launches/all";
+        private const string SpinnerLocator = "//*[contains(@class,'spinningPreloader')]";
 
         public LaunchesPage(IWebDriver driver) : base(driver) { }
 
@@ -18,11 +19,12 @@ namespace ReportPortal.E2E.UI.Business.Pages
             Driver.FindElement(By.XPath("//div[contains(@class,'allLatestDropdown__arrow')]"));
 
         internal IWebElement LaunchesDropdownItem(string option) => Driver.FindElement(By.XPath($"//div[contains(@class,'allLatestDropdown__option-list')]//div[contains(text(),'{option}')]"));
+
+        internal IWebElement ActionsButton => Driver.FindElement(By.XPath("//*[./span[contains(text(),'Actions')]]"));
         
-        
-        public override void WaitForReady()
+        internal override void WaitForReady()
         {
-            Driver.WaitForCondition(() => AllLatestDropdownArrow.Displayed && !Driver.ElementExistsByXPath("//*[contains(@class,'spinningPreloader')]"));
+            Driver.WaitForCondition(() => AllLatestDropdownArrow.Displayed && !Driver.ElementExistsByXPath(SpinnerLocator));
         }
     }
 }

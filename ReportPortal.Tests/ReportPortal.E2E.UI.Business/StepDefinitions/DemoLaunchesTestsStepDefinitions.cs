@@ -4,7 +4,6 @@ using ReportPortal.E2E.Core.Models;
 using ReportPortal.E2E.UI.Business.Contexts;
 using ReportPortal.E2E.UI.Business.Pages;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
 
 namespace ReportPortal.E2E.UI.Business.StepDefinitions
 {
@@ -13,14 +12,14 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions
     {
         public DemoLaunchesTestsStepDefinitions(FeatureContext featureContext)
         {
-             var driver = featureContext.Get<DriverFactory>(ContextKeys.Driver.ToString()).GetDriver();
+             var driver = featureContext.Get<DriverFactory>(ContextKeys.DriverFactory.ToString()).GetDriver();
             _navigationContext = new NavigationContext(driver);
             _launchesContext = new LaunchesContext(driver);
         }
         private readonly NavigationContext _navigationContext;
         private readonly LaunchesContext _launchesContext;
 
-        [When(@"I am on Launch page of '([^']*)'")]
+        [When(@"I am on Launch page of '([^']*)' project")]
         public void WhenIAmOnLaunchPageOf(string projectName)
         {
             _navigationContext.GoTo(LaunchesPage.Url, projectName);
@@ -34,9 +33,8 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions
         }
 
         [Then(@"Launches contains execution information")]
-        public void ThenLaunchesContainsExecutionInformation(Table table)
+        public void ThenLaunchesContainsExecutionInformation(List<LaunchModel> launchesInfo)
         {
-            var launchesInfo = table.CreateSet<LaunchModel>().ToList();
             var launches = _launchesContext.GetLaunches();
 
             foreach (var item in launchesInfo)
@@ -69,5 +67,12 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions
                     throw new Exception("Required to use only 'All' or 'Latest' launches view.");
             }
         }
+
+        [Then(@"Actions button is (enabled|disabled) by default")]
+        public void ThenActionsButtonIsDisabledByDefault(bool isEnabled)
+        {
+            _launchesContext.IsActionsEnabled().Should().Be(isEnabled);
+        }
+
     }
 }

@@ -2,11 +2,11 @@
 
 namespace ReportPortal.E2E.UI.Business.Pages
 {
-    public abstract class BasePage
+    internal abstract class BasePage
     {
         protected readonly IWebDriver Driver;
 
-        public abstract void WaitForReady();
+        internal abstract void WaitForReady();
 
         protected BasePage(IWebDriver driver)
         {
