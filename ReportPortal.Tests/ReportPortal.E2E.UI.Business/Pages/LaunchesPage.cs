@@ -8,19 +8,23 @@ namespace ReportPortal.E2E.UI.Business.Pages
     {
         public const string Url = "/ui/#{projectName}/launches/all";
         private const string SpinnerLocator = "//*[contains(@class,'spinningPreloader')]";
+        private const string LaunchContainerLocator = "//*[contains(@class,'grid__grid')]/*[@data-id]";
+        private const string AllLatestDropdownArrowLocator = "//div[contains(@class,'allLatestDropdown__arrow')]";
+        private const string ActionsButtonLocator = "//*[./span[contains(text(),'Actions')]]";
+        private const string LaunchesDropdownItemLocator = "//div[contains(@class,'allLatestDropdown__option-list')]//div[contains(text(),'{0}')]";
 
         public LaunchesPage(IWebDriver driver) : base(driver) { }
 
+
         internal List<LaunchContainer> LaunchesList =>
-            new(Driver.FindElements(By.XPath("//*[contains(@class,'grid__grid')]/*[@data-id]"))
+            new(Driver.FindElements(By.XPath(LaunchContainerLocator))
                 .Select(x=>new LaunchContainer(x)));
 
-        internal IWebElement AllLatestDropdownArrow =>
-            Driver.FindElement(By.XPath("//div[contains(@class,'allLatestDropdown__arrow')]"));
+        internal IWebElement AllLatestDropdownArrow => Driver.FindElement(By.XPath(AllLatestDropdownArrowLocator));
 
-        internal IWebElement LaunchesDropdownItem(string option) => Driver.FindElement(By.XPath($"//div[contains(@class,'allLatestDropdown__option-list')]//div[contains(text(),'{option}')]"));
+        internal IWebElement LaunchesDropdownItem(string option) => Driver.FindElement(By.XPath(string.Format(LaunchesDropdownItemLocator, option)));
 
-        internal IWebElement ActionsButton => Driver.FindElement(By.XPath("//*[./span[contains(text(),'Actions')]]"));
+        internal IWebElement ActionsButton => Driver.FindElement(By.XPath(ActionsButtonLocator));
         
         internal override void WaitForReady()
         {
