@@ -5,6 +5,9 @@
     },
     {
       "assembly": "ReportPortal.E2E.API.Business"
+    },
+    {
+      "assembly": "ReportPortal.E2E.Core"
     }
   ]
 }

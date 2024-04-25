@@ -1,33 +1,37 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using OpenQA.Selenium;
 using ReportPortal.E2E.Core;
-using ReportPortal.E2E.Core.Helpers;
+using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.HttpMessageHandlers;
 using ReportPortal.E2E.Core.Models;
-using ReportPortal.E2E.UI.Business.Contexts;
 
-namespace ReportPortal.E2E.UI.Business.Helpers
+namespace ReportPortal.E2E.UI.Business.Contexts
 {
-    public static class LoginHelper
+    public class LoginContext : BaseContext
     {
+        public LoginContext(IWebDriver driver) : base(driver) { }
+
         private static readonly UserCredentials AdminUser =
             TestsBootstrap.Instance.ServiceProvider.GetRequiredService<UserCredentials>();
 
+        private string _currentUser;
+
         private const string TokenKey = "token";
         private const string ApplicationSettingsKey = "applicationSettings";
-        private static NavigationContext NavigationContext => new();
+        private NavigationContext NavigationContext => new(Driver);
 
-        public static void LoginAsAdmin()
+        
+        public void LoginAs(string user)
         {
-            PerformLogin(AdminUser);
+            if (user.Equals(_currentUser)) return;
+            if (_currentUser != null) Logout();
+            PerformLogin(new UserCredentials { UserName = user, Password = AdminUser.Password });
+            _currentUser = user;
         }
 
-        public static void LoginAs(UserCredentials user)
-        {
-            PerformLogin(user);
-        }
 
-        private static void PerformLogin(UserCredentials user)
+        private void PerformLogin(UserCredentials user)
         {
             var tokenInfo = new ClientsHandler()
                 .CreateAuthToken(user).GetAwaiter().GetResult();
@@ -37,10 +41,15 @@ namespace ReportPortal.E2E.UI.Business.Helpers
                 value = tokenInfo.AccessToken
             });
             NavigationContext.GoToReportPortalBaseUrl();
-            JavaScriptLibrary.SetLocalStorageItem(TokenKey, token);
+            Driver.SetLocalStorageItem(TokenKey, token);
             NavigationContext.GoToReportPortalBaseUrl();
 
-            WaitFor.Condition(() => JavaScriptLibrary.IsLocalStorageItemExist(ApplicationSettingsKey));
+            Driver.WaitForCondition(() => Driver.IsLocalStorageItemExist(ApplicationSettingsKey));
+        }
+
+        private void Logout()
+        {
+            Driver.ClearLocalStorage();
         }
     }
 }

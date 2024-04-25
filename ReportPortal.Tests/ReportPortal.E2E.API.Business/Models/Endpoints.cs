@@ -5,6 +5,7 @@
         public const string ManageProject = "/api/v1/project";
         public const string GetProjectList = "/api/v1/project/list";
         public const string SearchProjectUser = "/api/v1/project/{0}/usernames?filter.cnt.users={1}";
+        public const string AddUserToProject = "/api/v1/project/{0}/assign";
 
         public const string GenerateProjectData = "/api/v1/demo/{0}/generate";
         public const string GetLaunchNames = "/api/v1/{0}/launch/names";

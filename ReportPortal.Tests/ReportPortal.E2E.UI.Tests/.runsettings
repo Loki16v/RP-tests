@@ -2,4 +2,7 @@
 	<TestRunParameters>
 		<Parameter name="Browser" value="Chrome" />
 	</TestRunParameters>
+	<NUnit>
+		<NumberOfTestWorkers>4</NumberOfTestWorkers>
+	</NUnit>
 </RunSettings>

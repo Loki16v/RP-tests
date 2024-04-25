@@ -1,0 +1,37 @@
+{
+  "DefaultProject": "default-project",
+  "TestUsers": [
+    {
+      "accountRole": "USER",
+      "defaultProject": "default-project",
+      "email": "aqausercustomer@mail.com",
+      "fullName": "AutomationUser Customer",
+      "login": "aqausercustomer",
+      "projectRole": "CUSTOMER"
+    },
+    {
+      "accountRole": "USER",
+      "defaultProject": "default-project",
+      "email": "aqauseroperator@mail.com",
+      "fullName": "AutomationUser Operator",
+      "login": "aqauseroperator",
+      "projectRole": "OPERATOR"
+    },
+    {
+      "accountRole": "USER",
+      "defaultProject": "default-project",
+      "email": "aqausermember@mail.com",
+      "fullName": "AutomationUser Member",
+      "login": "aqausermember",
+      "projectRole": "MEMBER"
+    },
+    {
+      "accountRole": "USER",
+      "defaultProject": "default-project",
+      "email": "aqauserprojectmanager@mail.com",
+      "fullName": "AutomationUser ProjectManager",
+      "login": "aqauserprojectmanager",
+      "projectRole": "PROJECT_MANAGER"
+    }
+  ]
+}

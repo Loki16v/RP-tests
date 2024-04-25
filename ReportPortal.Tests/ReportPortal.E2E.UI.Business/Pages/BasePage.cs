@@ -1,10 +1,16 @@
 ﻿using OpenQA.Selenium;
-using ReportPortal.E2E.Core.Driver;
 
 namespace ReportPortal.E2E.UI.Business.Pages
 {
-    public abstract class BasePage
+    internal abstract class BasePage
     {
-        protected readonly IWebDriver Driver = DriverFactory.GetDriver();
+        protected readonly IWebDriver Driver;
+
+        internal abstract void WaitForReady();
+
+        protected BasePage(IWebDriver driver)
+        {
+            Driver = driver;
+        }
     }
 }
