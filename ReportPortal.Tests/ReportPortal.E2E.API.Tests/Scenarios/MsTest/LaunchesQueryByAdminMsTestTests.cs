@@ -15,11 +15,11 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
         [TestMethod]
         [DataTestMethod]
         [DynamicData(nameof(GetLaunchesQuery), DynamicDataSourceType.Method)]
-        public void Filter_Demo_Launches_By_Query(string query, Int64 count)
+        public void Filter_Demo_Launches_By_Query(string query, int count)
         {
             var launchesList = Steps.AsAdminUser().GetLaunchesByFilter(ProjectName, query).GetAwaiter().GetResult()
                 .GetResponse<GetLaunchesResponse>().Launches;
-            launchesList.Should().HaveCount((int)count);
+            launchesList.Should().HaveCount(count);
         }
 
         [TestMethod]
@@ -36,13 +36,14 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
         }
 
 
-        private static List<string[]> GetLatestLaunchQuery()
+        private static IEnumerable<string[]> GetLatestLaunchQuery()
         {
-            return TestDataUtility.GetTestDataFromJson<LatestLaunchQueryDataModel>("LatestLaunchQueryTestData.json").LatestLaunchQuery;
+            return TestDataUtility.GetListTestDataFromJson<string[]>("LatestLaunchQueryTestData.json");
         }
-        private static List<object[]> GetLaunchesQuery()
+        private static IEnumerable<object[]> GetLaunchesQuery()
         {
-            return TestDataUtility.GetPrimitiveDataFromJson("LaunchesQueryTestData.json");
+            return TestDataUtility.GetListTestDataFromJson<QueryAndResultNumberDataModel>("LaunchesQueryTestData.json")
+                .Select(item => new object[] {item.Query, item.Number});
         }
     }
 }

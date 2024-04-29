@@ -15,16 +15,17 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest
         protected override void Preconditions() { }
 
         private static readonly List<string[]> LatestLaunchQueryTestData =
-            TestDataUtility.GetTestDataFromJson<LatestLaunchQueryDataModel>("LatestLaunchQueryTestData.json").LatestLaunchQuery;
-        private static readonly List<object[]> LaunchesQuery = TestDataUtility.GetPrimitiveDataFromJson("LaunchesQueryTestData.json");
+            TestDataUtility.GetListTestDataFromJson<string[]>("LatestLaunchQueryTestData.json");
+        private static readonly List<QueryAndResultNumberDataModel> LaunchesQuery =
+            TestDataUtility.GetListTestDataFromJson<QueryAndResultNumberDataModel>("LaunchesQueryTestData.json");
 
 
         [Test, TestCaseSource(nameof(LaunchesQuery))]
-        public void Filter_Demo_Launches_By_Query(string query, Int64 count)
+        public void Filter_Demo_Launches_By_Query(QueryAndResultNumberDataModel data)
         {
-            var launchesList = Steps.AsAdminUser().GetLaunchesByFilter(ProjectName, query).GetAwaiter().GetResult()
+            var launchesList = Steps.AsAdminUser().GetLaunchesByFilter(ProjectName, data.Query).GetAwaiter().GetResult()
                 .GetResponse<GetLaunchesResponse>().Launches;
-            launchesList.Should().HaveCount((int)count);
+            launchesList.Should().HaveCount(data.Number);
         }
 
         [Test, TestCaseSource(nameof(LatestLaunchQueryTestData))]

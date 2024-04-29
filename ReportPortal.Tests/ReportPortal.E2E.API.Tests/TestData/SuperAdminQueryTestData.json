@@ -1,7 +1,22 @@
 [
-  [ "?filter.eq.email=superadminemail@domain.com", 1 ],
-  [ "?filter.eq.fullName=tester", 1 ],
-  [ "?filter.eq.role=ADMINISTRATOR", 1 ],
-  [ "?filter.eq.type=INTERNAL", 1 ],
-  [ "?filter.eq.user=superadmin", 1 ]
+  {
+    "query": "?filter.eq.email=superadminemail@domain.com",
+    "number": 1
+  },
+  {
+    "query": "?filter.eq.fullName=tester",
+    "number": 1
+  },
+  {
+    "query": "?filter.eq.role=ADMINISTRATOR",
+    "number": 1
+  },
+  {
+    "query": "?filter.eq.type=INTERNAL",
+    "number": 1
+  },
+  {
+    "query": "?filter.eq.user=superadmin",
+    "number": 1
+  }
 ]
