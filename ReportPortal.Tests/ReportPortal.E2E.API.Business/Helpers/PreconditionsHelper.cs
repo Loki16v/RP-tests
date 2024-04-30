@@ -15,20 +15,17 @@ namespace ReportPortal.E2E.API.Business.Helpers
         public static UserCredentials CreateNewUser(string projectName, string userName, string userRole = "MEMBER",
             string email = null, string fullName = null, string accountRole = null)
         {
-            if (Steps.AsAdminUser().SearchProjectUser(projectName, userName).GetAwaiter().GetResult()
-                .GetResponse<List<string>>()
+            if (Steps.AsAdminUser().SearchProjectUser<List<string>>(projectName, userName)
                 .Contains(userName)) return new UserCredentials { UserName = userName, Password = DefaultPassword };
 
-            var allUsers = Steps.AsAdminUser().SearchUsers().GetAwaiter().GetResult().GetResponse<SearchUsersResponse>().UserList;
+            var allUsers = Steps.AsAdminUser().SearchUsers<SearchUsersResponse>().UserList;
             if (allUsers.Any(x => x.UserId.Equals(userName)))
             {
-                var response = Steps.AsAdminUser().AddUserToProject(projectName, userName, userRole).GetAwaiter().GetResult();
-                response.EnsureSuccessStatusCode();
+                Steps.AsAdminUser().AddUserToProject<SuccessfulMessageResponse>(projectName, userName, userRole);
             }
             else
             {
-                var response = Steps.AsAdminUser().CreateUser(userName, DefaultPassword, projectName, email, fullName, userRole, accountRole).GetAwaiter().GetResult();
-                response.EnsureSuccessStatusCode();
+                Steps.AsAdminUser().CreateUser(userName, DefaultPassword, projectName, email, fullName, userRole, accountRole);
             }
             
             return new UserCredentials { UserName = userName, Password = DefaultPassword };
@@ -47,12 +44,11 @@ namespace ReportPortal.E2E.API.Business.Helpers
 
         public static void CreateProjectWithDemoLaunches(string projectName)
         {
-            var projectsListResponse = Steps.AsAdminUser().GetProjectsList().GetAwaiter().GetResult();
-            projectsListResponse.EnsureSuccessStatusCode();
-            var projectsList = projectsListResponse.GetResponse<ProjectsListResponse>();
+            var projectsList = Steps.AsAdminUser().GetProjectsList<ProjectsListResponse>();
             if (projectsList.ProjectsList.Any(p => p.ProjectName.Equals(projectName))) return;
-            Steps.AsAdminUser().CreateProject(projectName).GetAwaiter().GetResult();
-            Steps.AsAdminUser().CreateDemoData(projectName).GetAwaiter().GetResult();
+            var createProjectResponse = Steps.AsAdminUser().CreateProject<CreateProjectResponse>(projectName);
+            CleanUpHelper.AddProjectId(createProjectResponse.ProjectId);
+            Steps.AsAdminUser().CreateDemoData(projectName);
         }
     }
 }

@@ -3,7 +3,6 @@ using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
-using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models.TestDataModel;
 using ReportPortal.E2E.Core.Utility;
 
@@ -21,7 +20,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest
         [Test, TestCaseSource(nameof(SuperAdminQuery))]
         public void Search_Admin_By_Query(QueryAndResultNumberDataModel data)
         {
-            var userListResponse = Steps.AsAdminUser().SearchUsers(data.Query).GetAwaiter().GetResult().GetResponse<SearchUsersResponse>().UserList;
+            var userListResponse = Steps.AsAdminUser().SearchUsers<SearchUsersResponse>(data.Query).UserList;
             userListResponse.Should().Contain(x => x.Id.Equals(data.Number));
         }
     }

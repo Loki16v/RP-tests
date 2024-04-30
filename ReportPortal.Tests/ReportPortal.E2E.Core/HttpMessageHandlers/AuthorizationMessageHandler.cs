@@ -3,13 +3,13 @@ using ReportPortal.E2E.Core.Models;
 
 namespace ReportPortal.E2E.Core.HttpMessageHandlers
 {
-    internal class AuthorizationMessageHandler : DelegatingHandler
+    public class AuthorizationMessageHandler : DelegatingHandler
     {
-        public TokenInformation Token { get; set; }
-        private Func<Task<TokenInformation>> AuthTokenGetter { get; }
+        private TokenInformation Token { get; set; }
+        private Func<TokenInformation> AuthTokenGetter { get; }
         public DateTime ExpiredDate { get; private set; }
 
-        internal AuthorizationMessageHandler(TokenInformation tokenInfo, Func<Task<TokenInformation>> authTokenGetter)
+        internal AuthorizationMessageHandler(TokenInformation tokenInfo, Func<TokenInformation> authTokenGetter)
         {
             Token = tokenInfo;
             ExpiredDate = tokenInfo.TokenTimeReceiving.AddSeconds(tokenInfo.ExpiresIn);
@@ -28,8 +28,14 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers
         {
             if (ExpiredDate >= DateTime.UtcNow) return;
 
-            Token = AuthTokenGetter().GetAwaiter().GetResult();
+            Token = AuthTokenGetter();
             ExpiredDate = DateTime.UtcNow.AddSeconds(Token.ExpiresIn);
+        }
+
+        public string GetTokenValue()
+        {
+            RenewTokenIfExpired();
+            return $"{Token.TokenType} {Token.AccessToken}";
         }
     }
 }

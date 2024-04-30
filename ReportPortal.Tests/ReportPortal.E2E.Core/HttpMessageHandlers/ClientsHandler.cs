@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using System.Net.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
+using ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient;
 using ReportPortal.E2E.Core.Models;
 
 namespace ReportPortal.E2E.Core.HttpMessageHandlers
@@ -8,47 +8,41 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers
     public class ClientsHandler
     {
         private static ConcurrentDictionary<string, AuthorizationMessageHandler> _authenticationHandlers;
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClient _httpClient;
+        private readonly string _baseUrl = TestsBootstrap.Instance.ServiceProvider.GetRequiredService<ReportPortalConfig>().BaseUrl;
 
         public ClientsHandler()
         {
             _authenticationHandlers = new ConcurrentDictionary<string, AuthorizationMessageHandler>();
-            _httpClient = new HttpClient();
+            //_httpClient = new HttpClient.HttpClient(_baseUrl);
+            _httpClient = new RestClient(_baseUrl);
         }
 
-        public async Task<HttpMessageHandler> GetAuthHttpMessageHandler(UserCredentials userCredentials, bool? refreshAuth = false)
+        public AuthorizationMessageHandler GetAuthHttpMessageHandler(UserCredentials userCredentials, bool? refreshAuth = false)
         {
             if (!_authenticationHandlers.ContainsKey(userCredentials.UserName) || refreshAuth.GetValueOrDefault())
             {
-                await CreateAuthToken(userCredentials);
+                CreateAuthToken(userCredentials);
             }
 
             else if (IsTokenExpired(userCredentials))
             {
                 _authenticationHandlers.Remove(userCredentials.UserName, out _);
-                await CreateAuthToken(userCredentials);
+                CreateAuthToken(userCredentials);
             }
 
             return _authenticationHandlers[userCredentials.UserName];
         }
 
-        public async Task<TokenInformation> CreateAuthToken(UserCredentials userCredentials)
+        public TokenInformation CreateAuthToken(UserCredentials userCredentials)
         {
-            var requestUri = TestsBootstrap.Instance.ServiceProvider.GetRequiredService<ReportPortalConfig>().ApiAuthUrl;
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUri)
+            var body = new List<KeyValuePair<string, string>>
             {
-                Content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
-                {
-                    new("grant_type", "password"),
-                    new("username", userCredentials.UserName),
-                    new("password", userCredentials.Password)
-                })
+                new("grant_type", "password"),
+                new("username", userCredentials.UserName),
+                new("password", userCredentials.Password)
             };
-            httpRequest.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("ui:uiman")));
-            var response = await _httpClient.SendAsync(httpRequest);
-            response.EnsureSuccessStatusCode();
-
-            var tokenInfo = await response.Content.ReadFromJsonAsync<TokenInformation>();
+            var tokenInfo = _httpClient.GetToken(body);
             _authenticationHandlers[userCredentials.UserName] = new AuthorizationMessageHandler(tokenInfo, () => CreateAuthToken(userCredentials))
                 { InnerHandler = new HttpClientHandler() };
             return tokenInfo;
