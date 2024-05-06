@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient;
 using ReportPortal.E2E.Core.Models;
+using ReportPortal.E2E.Core.Utility;
 
 namespace ReportPortal.E2E.Core.HttpMessageHandlers
 {
@@ -14,8 +15,7 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers
         public ClientsHandler()
         {
             _authenticationHandlers = new ConcurrentDictionary<string, AuthorizationMessageHandler>();
-            //_httpClient = new HttpClient.HttpClient(_baseUrl);
-            _httpClient = new RestClient(_baseUrl);
+            _httpClient = ApiClient.Get(_baseUrl);
         }
 
         public AuthorizationMessageHandler GetAuthHttpMessageHandler(UserCredentials userCredentials, bool? refreshAuth = false)

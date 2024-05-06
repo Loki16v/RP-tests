@@ -5,10 +5,12 @@ using ReportPortal.Client.Abstractions.Models;
 using ReportPortal.Client.Abstractions.Requests;
 using ReportPortal.Client.Abstractions.Responses;
 using ReportPortal.E2E.API.Business;
+using ReportPortal.E2E.API.Business.Models;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.API.Business.Models.Responses.Items;
 using ReportPortal.E2E.API.Business.StepDefinitions;
 using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
+using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Helpers;
 
 namespace ReportPortal.E2E.API.Tests.Scenarios
@@ -41,7 +43,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
 
             using (new AssertionScope())
             {
-                responseBody.ErrorCode.Should().Be(4041);
+                responseBody.ErrorCode.Should().Be(ResponseStatus.NotFound.GetCode());
                 responseBody.Message.Should().Be($"Launch '{int.MaxValue}' not found. Did you use correct Launch ID?");
             }
         }
@@ -52,10 +54,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
             var launchId = _projectLaunches.First().Id;
             var createClusterMessage = Steps.AsAdminUser().PostLaunchCluster<SuccessfulMessageResponse>(ProjectName, launchId.ToString()).Message;
 
-            using (new AssertionScope())
-            {
-                createClusterMessage.Should().Be($"Clusters generation for launch with ID='{launchId}' started.");
-            }
+            createClusterMessage.Should().Be($"Clusters generation for launch with ID='{launchId}' started.");
         }
 
         [Test]
@@ -65,7 +64,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
 
             using (new AssertionScope())
             {
-                responseBody.ErrorCode.Should().Be(4001);
+                responseBody.ErrorCode.Should().Be(ResponseStatus.BadRequest.GetCode());
                 responseBody.Message.Should().Be("Incorrect Request. [Field 'launchId' should not be null.] ");
             }
         }
@@ -77,7 +76,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
 
             using (new AssertionScope())
             {
-                responseBody.ErrorCode.Should().Be(4041);
+                responseBody.ErrorCode.Should().Be(ResponseStatus.NotFound.GetCode());
                 responseBody.Message.Should().Be($"Launch '{int.MaxValue}' not found. Did you use correct Launch ID?");
             }
         }
@@ -131,13 +130,19 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
                 }
             };
 
+            var expectedLaunchInfo = Steps.AsAdminUser().GetLaunchById<LaunchResponse>(ProjectName, launchId);
             var updateMessageBody = Steps.AsAdminUser().PutLaunchUpdate<ErrorResponse>(ProjectName, launchId, requestBody);
+            var actualLaunchInfo = Steps.AsAdminUser().GetLaunchById<LaunchResponse>(ProjectName, launchId);
 
             using (new AssertionScope())
             {
-                updateMessageBody.ErrorCode.Should().Be(4001);
-                updateMessageBody.Message.Should().Be("Incorrect Request. [Field 'attributes[].value' should not" +
-                                                      " contain only white spaces and shouldn't be empty.] ");
+                updateMessageBody.ErrorCode.Should().Be(ResponseStatus.BadRequest.GetCode());
+                updateMessageBody.Message.Should()
+                    .Be("Incorrect Request. [Field 'attributes[].value' should not contain only white spaces and shouldn't be empty.] ");
+                actualLaunchInfo.Description.Should().Be(expectedLaunchInfo.Description);
+                actualLaunchInfo.Name.Should().Be(expectedLaunchInfo.Name);
+                actualLaunchInfo.Mode.Should().Be(expectedLaunchInfo.Mode);
+                actualLaunchInfo.Attributes.Should().BeEquivalentTo(expectedLaunchInfo.Attributes);
             };
         }
 
@@ -148,7 +153,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
 
             using (new AssertionScope())
             {
-                updateMessageBody.ErrorCode.Should().Be(4041);
+                updateMessageBody.ErrorCode.Should().Be(ResponseStatus.NotFound.GetCode());
                 updateMessageBody.Message.Should().Be($"Launch '{int.MaxValue}' not found. Did you use correct Launch ID?");
             };
         }
@@ -187,13 +192,20 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
                     Value = null
                 }
             }};
-            var updateLaunchResponse = Steps.AsAdminUser()
-                .PutLaunchUpdate<ErrorResponse>(ProjectName, launchId, requestBody);
+
+            var expectedLaunchInfo = Steps.AsAdminUser().GetLaunchById<LaunchResponse>(ProjectName, launchId);
+            var updateLaunchResponse = Steps.AsAdminUser().PutLaunchUpdate<ErrorResponse>(ProjectName, launchId, requestBody);
+            var actualLaunchInfo = Steps.AsAdminUser().GetLaunchById<LaunchResponse>(ProjectName, launchId);
 
             using (new AssertionScope())
             {
-                updateLaunchResponse.ErrorCode.Should().Be(4001);
-                updateLaunchResponse.Message.Should().Be("Incorrect Request. [Field 'attributes[].value' should not contain only white spaces and shouldn't be empty.] ");
+                updateLaunchResponse.ErrorCode.Should().Be(ResponseStatus.BadRequest.GetCode());
+                updateLaunchResponse.Message.Should()
+                    .Be("Incorrect Request. [Field 'attributes[].value' should not contain only white spaces and shouldn't be empty.] ");
+                actualLaunchInfo.Description.Should().Be(expectedLaunchInfo.Description);
+                actualLaunchInfo.Name.Should().Be(expectedLaunchInfo.Name);
+                actualLaunchInfo.Mode.Should().Be(expectedLaunchInfo.Mode);
+                actualLaunchInfo.Attributes.Should().BeEquivalentTo(expectedLaunchInfo.Attributes);
             }
         }
 
@@ -212,13 +224,20 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
                     }
                 }
             };
-            var updateLaunchResponse = Steps.AsAdminUser()
-                .PutLaunchUpdate<ErrorResponse>(ProjectName, launchId, requestBody);
+
+            var expectedLaunchInfo = Steps.AsAdminUser().GetLaunchById<LaunchResponse>(ProjectName, launchId);
+            var updateLaunchResponse = Steps.AsAdminUser().PutLaunchUpdate<ErrorResponse>(ProjectName, launchId, requestBody);
+            var actualLaunchInfo = Steps.AsAdminUser().GetLaunchById<LaunchResponse>(ProjectName, launchId);
 
             using (new AssertionScope())
             {
-                updateLaunchResponse.ErrorCode.Should().Be(4001);
-                updateLaunchResponse.Message.Should().Be("Incorrect Request. [Field 'attributes[].value' should not contain only white spaces and shouldn't be empty.] ");
+                updateLaunchResponse.ErrorCode.Should().Be(ResponseStatus.BadRequest.GetCode());
+                updateLaunchResponse.Message.Should()
+                    .Be("Incorrect Request. [Field 'attributes[].value' should not contain only white spaces and shouldn't be empty.] ");
+                actualLaunchInfo.Description.Should().Be(expectedLaunchInfo.Description);
+                actualLaunchInfo.Name.Should().Be(expectedLaunchInfo.Name);
+                actualLaunchInfo.Mode.Should().Be(expectedLaunchInfo.Mode);
+                actualLaunchInfo.Attributes.Should().BeEquivalentTo(expectedLaunchInfo.Attributes);
             }
         }
 
@@ -227,19 +246,25 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
         {
             var launchId = _projectLaunches.Last().Id;
             var deleteResponseBody = Steps.AsAdminUser().DeleteLaunchById<SuccessfulMessageResponse>(ProjectName, launchId);
+            var deletedLaunchResponse = Steps.AsAdminUser().GetLaunchById<ErrorResponse>(ProjectName, launchId);
 
-            deleteResponseBody.Message.Should().Be($"Launch with ID = '{launchId}' successfully deleted.");
+            using (new AssertionScope())
+            {
+                deleteResponseBody.Message.Should().Be($"Launch with ID = '{launchId}' successfully deleted.");
+                deletedLaunchResponse.ErrorCode.Should().Be(ResponseStatus.NotFound.GetCode());
+                deletedLaunchResponse.Message.Should().Be($"Launch '{launchId}' not found. Did you use correct Launch ID?");
+            }
         }
 
         [Test]
         public void Delete_Non_Existing_Launch_Returns_Error()
         {
-            var updateMessageBody = Steps.AsAdminUser().DeleteLaunchById<ErrorResponse>(ProjectName, int.MaxValue);
+            var deleteLaunchResponse = Steps.AsAdminUser().DeleteLaunchById<ErrorResponse>(ProjectName, int.MaxValue);
 
             using (new AssertionScope())
             {
-                updateMessageBody.ErrorCode.Should().Be(4041);
-                updateMessageBody.Message.Should().Be($"Launch '{int.MaxValue}' not found. Did you use correct Launch ID?");
+                deleteLaunchResponse.ErrorCode.Should().Be(ResponseStatus.NotFound.GetCode());
+                deleteLaunchResponse.Message.Should().Be($"Launch '{int.MaxValue}' not found. Did you use correct Launch ID?");
             };
         }
     }

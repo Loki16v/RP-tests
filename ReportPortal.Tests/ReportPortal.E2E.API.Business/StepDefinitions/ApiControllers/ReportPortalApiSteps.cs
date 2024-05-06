@@ -5,7 +5,7 @@ using ReportPortal.E2E.Core.HttpMessageHandlers;
 using ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient;
 using ReportPortal.E2E.Core.Logger;
 using ReportPortal.E2E.Core.Models;
-using HttpClient = ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient.HttpClient;
+using ReportPortal.E2E.Core.Utility;
 
 namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
 {
@@ -18,8 +18,7 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
 
         public ReportPortalApiSteps(AuthorizationMessageHandler authorizationMessageHandler)
         {
-            //_launchApiSteps = new HttpClient(_baseUrl, authorizationMessageHandler);
-            _launchApiSteps = new RestClient(_baseUrl, authorizationMessageHandler);
+            _launchApiSteps = ApiClient.Get(_baseUrl, authorizationMessageHandler);
         }
     }
 }
