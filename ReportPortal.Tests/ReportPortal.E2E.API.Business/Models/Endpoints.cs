@@ -11,6 +11,10 @@
         public const string GetLaunchNames = "/api/v1/{0}/launch/names";
         public const string GetLaunchesByFilter = "/api/v1/{0}/launch";
         public const string GetLatestLaunchByFilter = "/api/v1/{0}/launch/latest";
+        public const string GetLaunchById = "/api/v1/{0}/launch/{1}";
+        public const string PostCluster = "/api/v1/{0}/launch/cluster";
+        public const string LaunchUpdate = "/api/v1/{0}/launch/{1}/update";
+        public const string DeleteLaunchById = "/api/v1/{0}/launch/{1}";
 
         public const string Users = "/api/users";
         public const string SearchUsers = "/api/users/all";

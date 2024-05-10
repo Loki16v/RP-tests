@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.API.Tests.Scenarios.MsTest.BaseTest;
-using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models.TestDataModel;
 using ReportPortal.E2E.Core.Utility;
 
@@ -18,7 +17,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
         [DynamicData(nameof(GetAdminSearchQuery), DynamicDataSourceType.Method)]
         public void Search_Admin_By_Query(string query, int id)
         {
-            var userListResponse = Steps.AsAdminUser().SearchUsers(query).GetAwaiter().GetResult().GetResponse<SearchUsersResponse>().UserList;
+            var userListResponse = Steps.AsAdminUser().SearchUsers<SearchUsersResponse>(query).UserList;
             userListResponse.Should().Contain(x => x.Id.Equals(id));
         }
 

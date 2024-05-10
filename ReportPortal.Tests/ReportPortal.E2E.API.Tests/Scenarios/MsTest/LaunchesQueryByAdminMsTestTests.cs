@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.API.Tests.Scenarios.MsTest.BaseTest;
-using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models.TestDataModel;
 using ReportPortal.E2E.Core.Utility;
 
@@ -17,8 +16,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
         [DynamicData(nameof(GetLaunchesQuery), DynamicDataSourceType.Method)]
         public void Filter_Demo_Launches_By_Query(string query, int count)
         {
-            var launchesList = Steps.AsAdminUser().GetLaunchesByFilter(ProjectName, query).GetAwaiter().GetResult()
-                .GetResponse<GetLaunchesResponse>().Launches;
+            var launchesList = Steps.AsAdminUser().GetLaunchesByFilter<GetLaunchesResponse>(ProjectName, query).Launches;
             launchesList.Should().HaveCount(count);
         }
 
@@ -27,10 +25,9 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest
         [DynamicData(nameof(GetLatestLaunchQuery), DynamicDataSourceType.Method)]
         public void Filter_Latest_Launch_By_Query(string query)
         {
-            var launchesList = Steps.AsAdminUser().GetLaunchesByFilter(ProjectName, query).GetAwaiter().GetResult()
-                .GetResponse<GetLaunchesResponse>().Launches.OrderBy(x => x.EndTime);
-            var latestLaunchUuid = Steps.AsAdminUser().GetLatestLaunchByFilter(ProjectName, query).GetAwaiter()
-                .GetResult().GetResponse<GetLaunchesResponse>().Launches.Single().Uuid;
+            var launchesList = Steps.AsAdminUser().GetLaunchesByFilter<GetLaunchesResponse>(ProjectName, query)
+                .Launches.OrderBy(x => x.EndTime);
+            var latestLaunchUuid = Steps.AsAdminUser().GetLatestLaunchByFilter<GetLaunchesResponse>(ProjectName, query).Launches.Single().Uuid;
 
             launchesList.Last().Uuid.Should().Be(latestLaunchUuid);
         }

@@ -22,9 +22,7 @@ namespace ReportPortal.E2E.API.Business
         {
             Log.LogInformation("Logging as SuperAdmin");
             var messageHandler = ClientsHandler
-                .GetAuthHttpMessageHandler(AdminCredentials, refreshToken)
-                .GetAwaiter()
-                .GetResult();
+                .GetAuthHttpMessageHandler(AdminCredentials, refreshToken);
 
             return new ReportPortalApiSteps(messageHandler);
         }
@@ -33,9 +31,7 @@ namespace ReportPortal.E2E.API.Business
         {
             Log.LogInformation($"Logging as {user.UserName}");
             var messageHandler = ClientsHandler
-                .GetAuthHttpMessageHandler(user, refreshToken)
-                .GetAwaiter()
-                .GetResult();
+                .GetAuthHttpMessageHandler(user, refreshToken);
 
             return new ReportPortalApiSteps(messageHandler);
         }

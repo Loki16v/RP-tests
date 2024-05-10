@@ -3,7 +3,6 @@ using NUnit.Framework;
 using ReportPortal.E2E.API.Business;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
-using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models.TestDataModel;
 using ReportPortal.E2E.Core.Utility;
 
@@ -23,18 +22,15 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest
         [Test, TestCaseSource(nameof(LaunchesQuery))]
         public void Filter_Demo_Launches_By_Query(QueryAndResultNumberDataModel data)
         {
-            var launchesList = Steps.AsUser(NewUserCredentials).GetLaunchesByFilter(ProjectName, data.Query).GetAwaiter().GetResult()
-                .GetResponse<GetLaunchesResponse>().Launches;
+            var launchesList = Steps.AsUser(NewUserCredentials).GetLaunchesByFilter<GetLaunchesResponse>(ProjectName, data.Query).Launches;
             launchesList.Should().HaveCount(data.Number);
         }
 
         [Test, TestCaseSource(nameof(LatestLaunchQueryTestData))]
         public void Filter_Latest_Launch_By_Query(string query)
         {
-            var launchesList = Steps.AsUser(NewUserCredentials).GetLaunchesByFilter(ProjectName, query).GetAwaiter().GetResult()
-                .GetResponse<GetLaunchesResponse>().Launches.OrderBy(x => x.EndTime);
-            var latestLaunchUuid = Steps.AsUser(NewUserCredentials).GetLatestLaunchByFilter(ProjectName, query).GetAwaiter()
-                .GetResult().GetResponse<GetLaunchesResponse>().Launches.Single().Uuid;
+            var launchesList = Steps.AsUser(NewUserCredentials).GetLaunchesByFilter<GetLaunchesResponse>(ProjectName, query).Launches.OrderBy(x => x.EndTime);
+            var latestLaunchUuid = Steps.AsUser(NewUserCredentials).GetLatestLaunchByFilter<GetLaunchesResponse>(ProjectName, query).Launches.Single().Uuid;
 
             launchesList.Last().Uuid.Should().Be(latestLaunchUuid);
         }

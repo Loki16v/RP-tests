@@ -33,8 +33,7 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         private void PerformLogin(UserCredentials user)
         {
-            var tokenInfo = new ClientsHandler()
-                .CreateAuthToken(user).GetAwaiter().GetResult();
+            var tokenInfo = new ClientsHandler().CreateAuthToken(user);
             var token = JsonConvert.SerializeObject(new
             {
                 type = tokenInfo.TokenType,

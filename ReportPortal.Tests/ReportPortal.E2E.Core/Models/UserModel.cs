@@ -1,11 +1,12 @@
 ﻿using System.Text.Json.Serialization;
+using ReportPortal.E2E.Core.Enums;
 
 namespace ReportPortal.E2E.Core.Models
 {
     public class UserModel
     {
         [JsonPropertyName("accountRole")]
-        public string AccountRole { get; set; }
+        public AccountRole AccountRole { get; set; }
 
         [JsonPropertyName("defaultProject")]
         public string DefaultProject { get; set; }
@@ -20,6 +21,6 @@ namespace ReportPortal.E2E.Core.Models
         public string Login { get; set; }
 
         [JsonPropertyName("projectRole")]
-        public string ProjectRole { get; set; }
+        public ProjectRole ProjectRole { get; set; }
     }
 }

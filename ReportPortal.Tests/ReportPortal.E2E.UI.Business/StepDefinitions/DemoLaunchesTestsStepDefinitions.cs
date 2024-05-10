@@ -47,7 +47,7 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions
                 }
                 if (item.Skipped != 0)
                 {
-                    result = result.Where(x => x.FailedCount.Text.Equals(item.Failed.ToString()));
+                    result = result.Where(x => x.SkippedCount.Text.Equals(item.Skipped.ToString()));
                 }
 
                 result.Should().HaveCount(1);
