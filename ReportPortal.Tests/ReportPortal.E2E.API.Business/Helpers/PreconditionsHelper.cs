@@ -36,7 +36,7 @@ namespace ReportPortal.E2E.API.Business.Helpers
         {
             CreateProjectWithDemoLaunches(TestsBootstrap.Instance.Configuration.GetSection("DefaultProject").GetValueOrThrow());
             var users = TestsBootstrap.Instance.Configuration.GetSection("TestUsers").Get<UserModel[]>();
-        
+            
             foreach (var user in users)
             {
                 CreateNewUser(user.DefaultProject, user.Login, user.ProjectRole, user.Email, user.FullName, user.AccountRole);

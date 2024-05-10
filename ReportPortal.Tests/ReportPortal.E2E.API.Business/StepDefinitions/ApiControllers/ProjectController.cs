@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReportPortal.E2E.API.Business.Models;
 using ReportPortal.E2E.Core.Enums;
+using ReportPortal.E2E.Core.Extensions;
 
 namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
 {
@@ -10,7 +11,7 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
         {
             var requestBody = new
             {
-                entryType = entryType.ToString(),
+                entryType = entryType.GetName(),
                 projectName = projectName
             };
             var endpoint = Endpoints.ManageProject;
@@ -43,7 +44,7 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
         {
             var body = new
             {
-                userNames = new[]{ new Dictionary<string, string>{ {userName, userRole.ToString().ToUpper()} }}
+                userNames = new[]{ new Dictionary<string, string>{ {userName, userRole.GetName()} }}
             };
             var endpoint = string.Format(Endpoints.AddUserToProject, projectName);
             Log.LogInformation($"AddUserToProject user name:{userName} \n Method: Put\n Endpoint: {endpoint}");

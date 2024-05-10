@@ -1,10 +1,16 @@
-﻿namespace ReportPortal.E2E.Core.Enums
+﻿using System.Text.Json.Serialization;
+
+namespace ReportPortal.E2E.Core.Enums
 {
     public enum ProjectRole
     {
-        Project_Manager,
+        [JsonPropertyName("PROJECT_MANAGER")]
+        ProjectManager,
+        [JsonPropertyName("MEMBER")]
         Member,
+        [JsonPropertyName("OPERATOR")]
         Operator,
+        [JsonPropertyName("CUSTOMER")]
         Customer
     }
 }
