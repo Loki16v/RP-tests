@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReportPortal.E2E.API.Business.Models;
+using ReportPortal.E2E.Core.Enums;
 using ReportPortal.E2E.Core.Helpers;
 
 namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
@@ -7,17 +8,17 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
     public partial class ReportPortalApiSteps
     {
         public void CreateUser(string userName, string password, string projectName,
-            string email, string fullName, string projectRole, string accountRole)
+            string email, string fullName, ProjectRole projectRole, AccountRole accountRole)
         {
             var requestBody = new
             {
-                accountRole = accountRole ?? "USER",
+                accountRole = accountRole.ToString().ToUpper(),
                 defaultProject = projectName,
                 email = email ?? $"{RandomValuesHelper.RandomString()}@mail.com",
                 fullName = fullName ?? RandomValuesHelper.RandomString(),
                 login = userName,
                 password = password,
-                projectRole = projectRole
+                projectRole = projectRole.ToString().ToUpper()
             };
             var endpoint = Endpoints.Users;
             Log.LogInformation($"CreateUser '{userName}' as '{projectRole}' in '{projectName}'\n Method: Post\n Endpoint: {endpoint}");

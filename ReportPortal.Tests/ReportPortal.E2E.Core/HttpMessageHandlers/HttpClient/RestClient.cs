@@ -25,32 +25,32 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient
             var httpRequest = new RestRequest(requestUri, Method.Post);
             body.ForEach(x => httpRequest.AddParameter(x.Key, x.Value));
             httpRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("ui:uiman")));
-            return _restClient.ExecuteAsync<TokenInformation>(httpRequest).Result.Data;
+            return _restClient.Execute<TokenInformation>(httpRequest).Data;
         }
 
         public T Get<T>(string requestUri)
         {
-            return _restClient.ExecuteAsync<T>(new RestRequest(requestUri)).Result.Data;
+            return _restClient.Execute<T>(new RestRequest(requestUri)).Data;
         }
 
         public T Post<T>(string requestUri, object body)
         {
-            return _restClient.ExecuteAsync<T>(new RestRequest(requestUri, Method.Post).AddJsonBody(body)).Result.Data;
+            return _restClient.Execute<T>(new RestRequest(requestUri, Method.Post).AddJsonBody(body)).Data;
         }
 
         public void Post(string requestUri, object body)
         {
-            _restClient.ExecuteAsync(new RestRequest(requestUri, Method.Post).AddJsonBody(body)).GetAwaiter().GetResult();
+            _restClient.Execute(new RestRequest(requestUri, Method.Post).AddJsonBody(body));
         }
 
         public T Put<T>(string requestUri, object body)
         {
-            return _restClient.ExecuteAsync<T>(new RestRequest(requestUri, Method.Put).AddJsonBody(body)).Result.Data;
+            return _restClient.Execute<T>(new RestRequest(requestUri, Method.Put).AddJsonBody(body)).Data;
         }
 
         public T Delete<T>(string requestUri)
         {
-            return _restClient.ExecuteAsync<T>(new RestRequest(requestUri), Method.Delete).Result.Data;
+            return _restClient.Execute<T>(new RestRequest(requestUri), Method.Delete).Data;
         }
 
         public void Delete(string requestUri)

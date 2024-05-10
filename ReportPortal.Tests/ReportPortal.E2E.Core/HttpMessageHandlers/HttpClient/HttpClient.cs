@@ -33,7 +33,7 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient
                 Content = new FormUrlEncodedContent(body)
             };
             httpRequest.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("ui:uiman")));
-            return _httpClient.SendAsync(httpRequest).Result.GetResponse<TokenInformation>();
+            return _httpClient.Send(httpRequest).GetResponse<TokenInformation>();
         }
 
         public T Get<T>(string requestUri)

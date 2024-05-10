@@ -1,15 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReportPortal.E2E.API.Business.Models;
+using ReportPortal.E2E.Core.Enums;
 
 namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
 {
     public partial class ReportPortalApiSteps
     {
-        public T CreateProject<T>(string projectName, string entryType = "INTERNAL")
+        public T CreateProject<T>(string projectName, EntryType entryType = EntryType.Internal)
         {
             var requestBody = new
             {
-                entryType = entryType,
+                entryType = entryType.ToString(),
                 projectName = projectName
             };
             var endpoint = Endpoints.ManageProject;
@@ -38,11 +39,11 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
             return _launchApiSteps.Get<T>(endpoint);
         }
       
-        public T AddUserToProject<T>(string projectName, string userName, string userRole = "MEMBER")
+        public T AddUserToProject<T>(string projectName, string userName, ProjectRole userRole)
         {
             var body = new
             {
-                userNames = new[]{ new Dictionary<string, string>{ {userName, userRole} }}
+                userNames = new[]{ new Dictionary<string, string>{ {userName, userRole.ToString().ToUpper()} }}
             };
             var endpoint = string.Format(Endpoints.AddUserToProject, projectName);
             Log.LogInformation($"AddUserToProject user name:{userName} \n Method: Put\n Endpoint: {endpoint}");

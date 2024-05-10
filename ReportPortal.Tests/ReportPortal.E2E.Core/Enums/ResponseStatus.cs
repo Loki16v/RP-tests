@@ -1,4 +1,4 @@
-﻿namespace ReportPortal.E2E.API.Business.Models
+﻿namespace ReportPortal.E2E.Core.Enums
 {
     public enum ResponseStatus
     {

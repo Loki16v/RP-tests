@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.Core;
+using ReportPortal.E2E.Core.Enums;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models;
 
@@ -12,8 +13,8 @@ namespace ReportPortal.E2E.API.Business.Helpers
         private static string DefaultPassword =>
             TestsBootstrap.Instance.ServiceProvider.GetRequiredService<UserCredentials>().Password;
 
-        public static UserCredentials CreateNewUser(string projectName, string userName, string userRole = "MEMBER",
-            string email = null, string fullName = null, string accountRole = null)
+        public static UserCredentials CreateNewUser(string projectName, string userName, ProjectRole userRole = ProjectRole.Member,
+            string email = null, string fullName = null, AccountRole accountRole = AccountRole.User)
         {
             if (Steps.AsAdminUser().SearchProjectUser<List<string>>(projectName, userName)
                 .Contains(userName)) return new UserCredentials { UserName = userName, Password = DefaultPassword };
@@ -35,7 +36,7 @@ namespace ReportPortal.E2E.API.Business.Helpers
         {
             CreateProjectWithDemoLaunches(TestsBootstrap.Instance.Configuration.GetSection("DefaultProject").GetValueOrThrow());
             var users = TestsBootstrap.Instance.Configuration.GetSection("TestUsers").Get<UserModel[]>();
-
+        
             foreach (var user in users)
             {
                 CreateNewUser(user.DefaultProject, user.Login, user.ProjectRole, user.Email, user.FullName, user.AccountRole);

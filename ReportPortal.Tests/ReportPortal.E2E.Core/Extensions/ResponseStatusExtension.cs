@@ -1,4 +1,4 @@
-﻿using ReportPortal.E2E.API.Business.Models;
+﻿using ReportPortal.E2E.Core.Enums;
 
 namespace ReportPortal.E2E.Core.Extensions
 {

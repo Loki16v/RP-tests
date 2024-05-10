@@ -5,11 +5,11 @@ using ReportPortal.Client.Abstractions.Models;
 using ReportPortal.Client.Abstractions.Requests;
 using ReportPortal.Client.Abstractions.Responses;
 using ReportPortal.E2E.API.Business;
-using ReportPortal.E2E.API.Business.Models;
 using ReportPortal.E2E.API.Business.Models.Responses;
 using ReportPortal.E2E.API.Business.Models.Responses.Items;
 using ReportPortal.E2E.API.Business.StepDefinitions;
 using ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest;
+using ReportPortal.E2E.Core.Enums;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Helpers;
 
