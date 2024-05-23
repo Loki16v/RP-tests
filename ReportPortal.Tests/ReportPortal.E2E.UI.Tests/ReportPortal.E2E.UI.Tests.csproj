@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<IsTestProject>true</IsTestProject>
@@ -11,7 +11,7 @@
     <PackageReference Include="NUnit" Version="4.1.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="123.0.6312.8600" />
-    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver.win32" Version="125.0.2535.51" />
+    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="123.0.2420.65" />
   </ItemGroup>
 
 	<ItemGroup>
