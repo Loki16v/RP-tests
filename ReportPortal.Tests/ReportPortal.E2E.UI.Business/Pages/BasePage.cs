@@ -6,11 +6,13 @@ namespace ReportPortal.E2E.UI.Business.Pages
     {
         protected readonly IWebDriver Driver;
 
-        internal abstract void WaitForReady();
+        protected const string SpinnerLocator = "//*[contains(@class,'spinningPreloader')]";
 
         protected BasePage(IWebDriver driver)
         {
             Driver = driver;
         }
+
+        internal abstract void WaitForReady();
     }
 }
