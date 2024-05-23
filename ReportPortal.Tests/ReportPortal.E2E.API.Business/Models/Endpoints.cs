@@ -19,5 +19,7 @@
         public const string Users = "/api/users";
         public const string SearchUsers = "/api/users/all";
 
+        public const string GetDashboards = "/api/v1/{0}/dashboard";
+        public const string DeleteDashboard = "/api/v1/{0}/dashboard/{1}";
     }
 }

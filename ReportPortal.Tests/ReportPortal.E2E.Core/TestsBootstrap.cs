@@ -46,6 +46,18 @@ namespace ReportPortal.E2E.Core
             };
             services.AddSingleton(reportPortalConfig);
 
+            var remoteRunOptionsModel = new RemoteRunOptionsModel
+            {
+                UserName = Configuration.GetSection("RemoteRunOptions:UserName").Value,
+                AccessKey = Configuration.GetSection("RemoteRunOptions:AccessKey").Value,
+                RemoteDriverUrl = Configuration.GetSection("RemoteRunOptions:RemoteDriverUrl").Value,
+                PlatformName = Configuration.GetSection("RemoteRunOptions:PlatformName").Value,
+                ChromeVersion = Configuration.GetSection("RemoteRunOptions:ChromeVersion").Value,
+                EdgeVersion = Configuration.GetSection("RemoteRunOptions:EdgeVersion").Value
+
+            };
+            services.AddSingleton(remoteRunOptionsModel);
+
             services.AddLogging(builder => builder.AddSerilog(SerilogFactory.CreateSerilogLogger(Configuration.GetSection("LogsPath").Value)));
             services.AddSingleton<ClientsHandler>();
             return services.BuildServiceProvider();
