@@ -1,6 +1,6 @@
 ﻿namespace ReportPortal.E2E.Core.Models
 {
-    public class RemoteRunOptionsModel
+    public class RemoteRunOptions
     {
         public string UserName { get; set; }
         public string AccessKey { get; set; }

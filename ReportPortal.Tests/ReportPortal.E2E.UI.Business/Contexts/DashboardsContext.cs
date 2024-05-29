@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using ReportPortal.E2E.UI.Business.CustomElements;
 using ReportPortal.E2E.UI.Business.Pages;
 
 namespace ReportPortal.E2E.UI.Business.Contexts
@@ -9,7 +10,7 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         private DashboardsPage DashboardsPage => new(Driver);
 
-        public List<IWebElement> GetDashboards()
+        public List<Button> GetDashboards()
         {
             return DashboardsPage.Dashboards.ToList();
         }

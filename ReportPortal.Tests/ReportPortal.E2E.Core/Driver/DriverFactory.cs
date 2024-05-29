@@ -1,17 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Remote;
+using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models;
 
 namespace ReportPortal.E2E.Core.Driver
 {
     public class DriverFactory
     {
-        private static readonly RemoteRunOptionsModel RemoteRunOptions =
-            TestsBootstrap.Instance.ServiceProvider.GetService<RemoteRunOptionsModel>();
+        private static readonly RemoteRunOptions RemoteRunOptions =
+            TestsBootstrap.Instance.ServiceProvider.GetService<RemoteRunOptions>();
         private static readonly int DefaultTimeOut =
             TestsBootstrap.Instance.Configuration.GetSection("ImplicitWaitTimeOut").Get<int>();
         private static readonly int PageLoadTimeOut =
@@ -19,20 +21,22 @@ namespace ReportPortal.E2E.Core.Driver
 
         private IWebDriver _driver;
 
-        public DriverFactory(string browser, bool isRemote = false, string remoteRunName = null)
+        public DriverFactory(string browser)
         {
             Enum.TryParse(browser, out Browser browserName);
-            if (isRemote)
+            if (bool.Parse(TestsBootstrap.Instance.Configuration.GetSection("RemoteRun").GetValueOrThrow()))
             {
-                var options = new Dictionary<string, object>();
-                if (remoteRunName != null) options.Add("name", remoteRunName);
-                options.Add("username", RemoteRunOptions.UserName);
-                options.Add("accessKey", RemoteRunOptions.AccessKey);
-                options.Add("platformName", RemoteRunOptions.PlatformName);
-                options.Add("build", "ReportPortal.E2E.UI.Tests");
-                options.Add("project", "TestRun");
-                options.Add("w3c", true);
-                options.Add("plugin", "c#-nunit");
+                var options = new Dictionary<string, object>
+                {
+                    { "name", TestContext.CurrentContext.Test.Name },
+                    { "username", RemoteRunOptions.UserName },
+                    { "accessKey", RemoteRunOptions.AccessKey },
+                    { "platformName", RemoteRunOptions.PlatformName },
+                    { "build", "ReportPortal.E2E.UI.Tests" },
+                    { "project", "TestRun" },
+                    { "w3c", true },
+                    { "plugin", "c#-nunit" }
+                };
 
                 _driver = browserName switch
                 {

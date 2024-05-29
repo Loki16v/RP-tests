@@ -1,0 +1,10 @@
+{
+  "LocalRunOptions": {
+    "PersonalProject": "superadmin_personal",
+    "DefaultUser": {
+      "UserName": "superadmin",
+      "DefaultPassword": "erebus"
+    },
+    "BaseUrl": "http://localhost:8080"
+  }
+}

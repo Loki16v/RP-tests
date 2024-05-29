@@ -1,27 +1,21 @@
 ﻿using OpenQA.Selenium;
+using ReportPortal.E2E.UI.Business.CustomElements;
 
 namespace ReportPortal.E2E.UI.Business.Pages.Containers
 {
-    public class ChartContainer
+    public class ChartContainer : BaseElement
     {
-        private readonly IWebElement _element;
-
-        public ChartContainer(IWebElement element)
-        {
-            _element = element;
-        }
+        public ChartContainer(IWebElement element) : base(element) { }
 
         private const string ResizeButtonLocator = ".//*[contains(@class,'react-resizable-handle')]";
         private const string DraggableHeaderLocator = ".//*[contains(@class,'draggable-field')][contains(@class,'widget__modifiable')]";
 
-        internal IWebElement ResizeButton =>
-            _element.FindElement(By.XPath(ResizeButtonLocator));
+        internal Button ResizeButton => new(Element.FindElement(By.XPath(ResizeButtonLocator)));
 
-        internal IWebElement DraggableHeader =>
-            _element.FindElement(By.XPath(DraggableHeaderLocator));
+        internal Label DraggableHeader => new(Element.FindElement(By.XPath(DraggableHeaderLocator)));
 
-        public string GetWidthValue => _element.GetCssValue("width");
-        public string GetHeightValue => _element.GetCssValue("height");
-        public string GetPosition => _element.GetCssValue("transform");
+        public string GetWidthValue => Element.GetCssValue("width");
+        public string GetHeightValue => Element.GetCssValue("height");
+        public string GetPosition => Element.GetCssValue("transform");
     }
 }

@@ -1,18 +1,14 @@
 ﻿using OpenQA.Selenium;
+using ReportPortal.E2E.UI.Business.CustomElements;
 
 namespace ReportPortal.E2E.UI.Business.Pages.Modals
 {
-    internal class ConfirmationModal
+    internal class ConfirmationModal : BaseElement
     {
-        private readonly IWebElement _element;
-
-        public ConfirmationModal(IWebElement element)
-        {
-            _element = element;
-        }
+        public ConfirmationModal(IWebElement element) : base(element) { }
 
         private const string DeleteButtonLocator = ".//button[contains(text(),'Delete')]";
 
-        internal IWebElement DeleteButton => _element.FindElement(By.XPath(DeleteButtonLocator));
+        internal Button DeleteButton => new(Element.FindElement(By.XPath(DeleteButtonLocator)));
     }
 }

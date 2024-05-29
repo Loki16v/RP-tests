@@ -17,12 +17,13 @@ namespace ReportPortal.E2E.API.Business.Helpers
 
         public static void CleanTestData()
         {
+            Log.LogDebug($"Starting cleanup");
             foreach (var id in ProjectIds)
             {
-                Log.LogInformation($"Deleting project id: {id}");
+                Log.LogDebug($"Deleting project id: {id}");
                 Steps.AsAdminUser().DeleteProject(id);
             }
-            Log.LogInformation($"Cleanup finished");
+            Log.LogDebug($"Cleanup finished");
         }
 
         public static void CleanDemoData(string projectName)

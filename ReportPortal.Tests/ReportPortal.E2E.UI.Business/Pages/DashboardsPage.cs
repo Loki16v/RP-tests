@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using ReportPortal.E2E.Core.Extensions;
+using ReportPortal.E2E.UI.Business.CustomElements;
 
 namespace ReportPortal.E2E.UI.Business.Pages
 {
@@ -11,7 +12,7 @@ namespace ReportPortal.E2E.UI.Business.Pages
 
         public DashboardsPage(IWebDriver driver) : base(driver) { }
 
-        public IReadOnlyCollection<IWebElement> Dashboards => Driver.FindElements(By.XPath(DashboardsLocator));
+        public List<Button> Dashboards => new(Driver.FindElements(By.XPath(DashboardsLocator)).Select(x => new Button(x)));
 
         internal override void WaitForReady()
         {

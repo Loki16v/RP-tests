@@ -18,10 +18,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             TestsBootstrap.Instance.ServiceProvider.GetRequiredService<UserCredentials>().UserName;
 
         protected readonly string Project =
-            TestsBootstrap.Instance.Configuration.GetSection("PersonalProject").GetValueOrThrow();
+            TestsBootstrap.Instance.ServiceProvider.GetRequiredService<ReportPortalConfig>().PersonalProject;
 
-        private readonly bool _isRemote =
-            bool.TryParse(TestsBootstrap.Instance.Configuration.GetSection("RemoteRun").Value, out var _);
 
         private DriverFactory _driverFactory;
         protected string Browser;
@@ -46,7 +44,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         [SetUp]
         public void Setup()
         {
-            _driverFactory = new DriverFactory(Browser, _isRemote, TestContext.CurrentContext.Test.Name);
+            _driverFactory = new DriverFactory(Browser);
             Driver = _driverFactory.GetDriver();
 
             LoginContext = new LoginContext(Driver);
@@ -62,15 +60,10 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             var testResult = TestContext.CurrentContext.Result.Outcome.Status;
 
             if (testResult == TestStatus.Failed)
-            {
-                var screenshot = ((ITakesScreenshot)Driver).GetScreenshot();
-                var screenshotPath = Path.Combine(AppContext.BaseDirectory, "TestResults");
-                if (!Directory.Exists(screenshotPath)) Directory.CreateDirectory(screenshotPath);
-                screenshot.SaveAsFile(Path.Combine(screenshotPath,
-                    $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now:yy_MM_dd__HH_mm_ss}.png"));
-            }
+                Driver.TakeScreenShot();
 
-            if (_isRemote) UpdateRemoteTestResult(testResult);
+            if (bool.Parse(TestsBootstrap.Instance.Configuration.GetSection("RemoteRun").GetValueOrThrow()))
+                Driver.UpdateLambdaTestStatus(testResult);
             
             _driverFactory.CloseDriver();
         }
@@ -79,19 +72,6 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         public void OneTimeTearDown()
         {
             CleanUpHelper.CleanDemoData(Project);
-        }
-
-
-        private void UpdateRemoteTestResult(TestStatus status)
-        {
-            try
-            {
-                ((IJavaScriptExecutor)Driver).ExecuteScript("lambda-status=" + (status == TestStatus.Passed ? "passed" : "failed"));
-            }
-            catch
-            {
-                // ignored
-            }
         }
     }
 }

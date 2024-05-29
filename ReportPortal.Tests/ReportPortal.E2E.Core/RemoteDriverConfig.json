@@ -1,0 +1,16 @@
+{
+  "RemoteRunOptions": {
+    "PersonalProject": "ivan_dorosevich_personal",
+    "DefaultUser": {
+      "UserName": "ivan_dorosevich",
+      "DefaultPassword": "Password1234"
+    },
+    "BaseUrl": "https://reportportal.epam.com",
+    "UserName": "loki.mail.com",
+    "AccessKey": "Z31KS7ebS1OGHoqiBi9X62SqrtemzFMM5SH7RcWJ7EIlawjV5t",
+    "RemoteDriverUrl": "https://hub.lambdatest.com/wd/hub",
+    "PlatformName": "Windows 10",
+    "ChromeVersion": "124",
+    "EdgeVersion": "124"
+  }
+}

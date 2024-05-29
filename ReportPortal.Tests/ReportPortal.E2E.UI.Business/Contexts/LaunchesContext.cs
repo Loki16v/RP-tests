@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.UI.Business.Pages;
 using ReportPortal.E2E.UI.Business.Pages.Containers;
 
@@ -25,8 +24,8 @@ namespace ReportPortal.E2E.UI.Business.Contexts
         public LaunchesContext SelectLaunches(string option)
         {
             WaitForReady();
-            LaunchesPage.AllLatestDropdownArrow.Click();
-            Driver.WaitElementAndClick(LaunchesPage.LaunchesDropdownItem(option));
+            LaunchesPage.AllLatestArrowButton.Click();
+            LaunchesPage.LaunchesDropdownItem(option).WaitElementAndClick();
             return this;
         }
 
@@ -37,14 +36,14 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         public LaunchesContext SortByStartTime()
         {
-            Driver.WaitElementAndClick(LaunchesPage.SortByStartTimeButton);
+            LaunchesPage.SortByStartTimeButton.WaitElementAndClick();
             WaitForReady();
             return this;
         }
 
         public LaunchesContext ScrollIntoLaunch(LaunchContainer launch)
         {
-            Driver.ScrollToElement(launch.TotalCount);
+            launch.ScrollToElement();
             return this;
         }
 
@@ -57,7 +56,7 @@ namespace ReportPortal.E2E.UI.Business.Contexts
         public LaunchesContext ClickCompareButton()
         {
             OpenActionsMenu();
-            Driver.WaitElementAndClick(LaunchesPage.CompareButton);
+            LaunchesPage.CompareButton.WaitElementAndClick();
             LaunchesPage.WaitForCompareModal();
             return this;
         }
@@ -70,7 +69,7 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         public string GetCompareModalTitle()
         {
-            return LaunchesPage.CompareModal.Title.Text;
+            return LaunchesPage.CompareModal.Title.GetText();
         }
 
         public (int, int) GetCompareModalSize()
@@ -82,7 +81,7 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         public LaunchesContext CloseCompareModal()
         {
-            Driver.JsClick(LaunchesPage.CompareModal.CloseButton);
+            LaunchesPage.CompareModal.CloseButton.JsClick();
             return this;
         }
 
@@ -93,8 +92,7 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         public LaunchesContext DeleteLaunchFromLaunchMenu(LaunchContainer launch)
         {
-            launch.MenuButton.Click();
-            Driver.WaitElementAndClick(launch.DeleteLaunchMenuButton);
+            launch.CommonMenuDropDown.OpenAndClickOption("Delete");
             return this;
         }
 

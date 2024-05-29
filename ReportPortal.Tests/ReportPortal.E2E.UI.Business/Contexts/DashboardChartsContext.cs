@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models;
 using ReportPortal.E2E.UI.Business.Pages;
 using ReportPortal.E2E.UI.Business.Pages.Containers;
@@ -31,13 +30,13 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         public DashboardChartsContext ResizeChart(ChartContainer chart, int x, int y)
         {
-            Driver.DragAndDrop(chart.ResizeButton, x, y);
+            chart.ResizeButton.DragAndDrop(x, y);
             return this;
         }
 
         public DashboardChartsContext MoveChart(ChartContainer chart, int x, int y)
         {
-            Driver.DragAndDrop(chart.DraggableHeader, x, y);
+            chart.DraggableHeader.DragAndDrop(x, y);
             return this;
         }
 

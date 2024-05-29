@@ -19,7 +19,9 @@ namespace ReportPortal.E2E.Core
             var builder = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", true, false)
-                .AddJsonFile("TestUsers.json", true, false);
+                .AddJsonFile("TestUsers.json", true, false)
+                .AddJsonFile("RemoteDriverConfig.json", true, false)
+                .AddJsonFile("LocalDriverConfig.json", true, false);
 
             Configuration = builder.Build();
             ServiceProvider = ConfigureServices();
@@ -31,22 +33,26 @@ namespace ReportPortal.E2E.Core
 
         private IServiceProvider ConfigureServices()
         {
+            var config = bool.Parse(Configuration.GetSection("RemoteRun").GetValueOrThrow())
+                ? "RemoteRunOptions"
+                : "LocalRunOptions";
             var services = new ServiceCollection();
             var defaultUser = new UserCredentials
             {
-                UserName = Configuration.GetSection("DefaultUser:UserName").GetValueOrThrow(),
-                Password = Configuration.GetSection("DefaultUser:DefaultPassword").GetValueOrThrow()
+                UserName = Configuration.GetSection($"{config}:DefaultUser:UserName").GetValueOrThrow(),
+                Password = Configuration.GetSection($"{config}:DefaultUser:DefaultPassword").GetValueOrThrow()
             };
             services.AddSingleton(defaultUser);
 
             var reportPortalConfig = new ReportPortalConfig
             {
-                BaseUrl = Configuration.GetSection("ReportPortalConfig:BaseUrl").GetValueOrThrow(),
-                ApiAuthUrl = Configuration.GetSection("ReportPortalConfig:ApiAuthUrl").GetValueOrThrow()
+                BaseUrl = Configuration.GetSection($"{config}:BaseUrl").GetValueOrThrow(),
+                ApiAuthUrl = Configuration.GetSection("ApiAuthUrl").GetValueOrThrow(),
+                PersonalProject = Configuration.GetSection($"{config}:PersonalProject").Value
             };
             services.AddSingleton(reportPortalConfig);
 
-            var remoteRunOptionsModel = new RemoteRunOptionsModel
+            var remoteRunOptionsModel = new RemoteRunOptions
             {
                 UserName = Configuration.GetSection("RemoteRunOptions:UserName").Value,
                 AccessKey = Configuration.GetSection("RemoteRunOptions:AccessKey").Value,
@@ -58,7 +64,8 @@ namespace ReportPortal.E2E.Core
             };
             services.AddSingleton(remoteRunOptionsModel);
 
-            services.AddLogging(builder => builder.AddSerilog(SerilogFactory.CreateSerilogLogger(Configuration.GetSection("LogsPath").Value)));
+            services.AddLogging(builder => builder.AddSerilog(SerilogFactory
+                .CreateSerilogLogger(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Configuration.GetSection("LogsPath").GetValueOrThrow()))));
             services.AddSingleton<ClientsHandler>();
             return services.BuildServiceProvider();
         }
