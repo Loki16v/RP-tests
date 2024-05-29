@@ -17,6 +17,19 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         }
 
         [Test]
+        public void Sorting_Launches_By_Name()
+        {
+            NavigationContext.GoToLaunchesPage(Project);
+            var launchNames = LaunchesContext.WaitForReady().GetLaunchNames();
+
+            using (new AssertionScope())
+            {
+                launchNames.Should().BeInDescendingOrder();
+                LaunchesContext.SortByName().GetLaunchNames().Should().BeInAscendingOrder();
+            }
+        }
+
+        [Test]
         public void Sorting_Launches_By_Start_Time()
         {
             NavigationContext.GoToLaunchesPage(Project);

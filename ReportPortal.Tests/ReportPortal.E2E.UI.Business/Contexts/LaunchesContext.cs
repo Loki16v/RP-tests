@@ -21,6 +21,11 @@ namespace ReportPortal.E2E.UI.Business.Contexts
             return GetLaunches().Select(item => item.StartTimeMarker.GetAttribute("textContent")).ToList();
         }
 
+        public List<string> GetLaunchNames()
+        {
+            return GetLaunches().Select(item => item.GetName).ToList();
+        }
+
         public LaunchesContext SelectLaunches(string option)
         {
             WaitForReady();
@@ -32,6 +37,13 @@ namespace ReportPortal.E2E.UI.Business.Contexts
         public bool IsActionsEnabled()
         {
             return !LaunchesPage.ActionsButton.GetAttribute("class").Contains("disabled");
+        }
+
+        public LaunchesContext SortByName()
+        {
+            LaunchesPage.SortByNameButton.WaitElementAndClick();
+            WaitForReady();
+            return this;
         }
 
         public LaunchesContext SortByStartTime()
@@ -101,6 +113,60 @@ namespace ReportPortal.E2E.UI.Business.Contexts
             LaunchesPage.ConfirmationModal.DeleteButton.Click();
             LaunchesPage.WaitForReady();
             return this;
+        }
+
+        public LaunchDetailsContext NavigateToLaunchDetailsByNameLink(LaunchContainer launch)
+        {
+            launch.Name.Click();
+            return new LaunchDetailsContext(Driver);
+        }
+
+        public LaunchTestsInfoContext NavigateToLaunchAllTestsView(LaunchContainer launch)
+        {
+            launch.TotalCount.JsClick();
+            return new LaunchTestsInfoContext(Driver);
+        }
+
+        public LaunchTestsInfoContext NavigateToLaunchPassedTestsView(LaunchContainer launch)
+        {
+            launch.PassedCount.JsClick();
+            return new LaunchTestsInfoContext(Driver);
+        }
+
+        public LaunchTestsInfoContext NavigateToLaunchFailedTestsView(LaunchContainer launch)
+        {
+            launch.FailedCount.JsClick();
+            return new LaunchTestsInfoContext(Driver);
+        }
+
+        public LaunchTestsInfoContext NavigateToLaunchSkippedTestsView(LaunchContainer launch)
+        {
+            launch.SkippedCount.JsClick();
+            return new LaunchTestsInfoContext(Driver);
+        }
+
+        public LaunchTestsInfoContext NavigateToLaunchProductBugTestsView(LaunchContainer launch)
+        {
+            launch.ProductBug.JsClick();
+            return new LaunchTestsInfoContext(Driver);
+        }
+
+        public LaunchTestsInfoContext NavigateToLaunchAutomationBugTestsView(LaunchContainer launch)
+        {
+            launch.AutomationBug.JsClick();
+            return new LaunchTestsInfoContext(Driver);
+        }
+
+        public LaunchTestsInfoContext NavigateToLaunchSystemIssueTestsView(LaunchContainer launch)
+        {
+            launch.SystemIssue.JsClick();
+            return new LaunchTestsInfoContext(Driver);
+        }
+
+        public LaunchTestsInfoContext NavigateToLaunchToInvestigateTestsView(LaunchContainer launch)
+        {
+            launch.ToInvestigate.JsClick();
+            return new LaunchTestsInfoContext(Driver);
         }
 
         public LaunchesContext WaitForReady()

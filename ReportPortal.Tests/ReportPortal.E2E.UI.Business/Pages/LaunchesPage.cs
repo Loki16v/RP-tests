@@ -14,6 +14,7 @@ namespace ReportPortal.E2E.UI.Business.Pages
         private const string AllLatestDropdownLocator = "//*[contains(@class,'allLatestDropdown__arrow')]";
         private const string LaunchesDropdownItemLocator = "//div[contains(@class,'allLatestDropdown__option-list')]//div[contains(text(),'{0}')]";
         private const string ActionsButtonLocator = "//*[./span[contains(text(),'Actions')]]";
+        private const string SortByNameButtonLocator = "//*[contains(@class,'headerCell__title-container')][.//*[contains(text(),'name')]]";
         private const string SortByStartTimeButtonLocator = "//*[contains(@class,'headerCell__title-container')][.//*[contains(text(),'start')]]";
         private const string CompareModalLocator = "//*[contains(@class,'launchCompareModal__launch-compare-modal')]";
         private const string CompareButtonLocator = "//*[text()='Compare']";
@@ -29,6 +30,8 @@ namespace ReportPortal.E2E.UI.Business.Pages
         internal Button AllLatestArrowButton => new(Driver.FindElement(By.XPath(AllLatestDropdownLocator)));
 
         internal Button LaunchesDropdownItem(string option) => new(Driver.FindElement(By.XPath(string.Format(LaunchesDropdownItemLocator, option))));
+
+        internal Button SortByNameButton => new(Driver.FindElement(By.XPath(SortByNameButtonLocator)));
 
         internal Button SortByStartTimeButton => new(Driver.FindElement(By.XPath(SortByStartTimeButtonLocator)));
 

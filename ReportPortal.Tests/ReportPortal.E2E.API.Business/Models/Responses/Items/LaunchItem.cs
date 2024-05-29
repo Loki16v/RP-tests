@@ -33,5 +33,8 @@ namespace ReportPortal.E2E.API.Business.Models.Responses.Items
 
         [JsonPropertyName("status")]
         public string Status { get; set; }
+
+        [JsonPropertyName("statistics")]
+        public Statistics Statistics { get; set; }
     }
 }
