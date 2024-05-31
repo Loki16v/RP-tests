@@ -10,13 +10,14 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
 
         private const string OptionLocator = "..//*[text()='{0}']";
 
+
         public void OpenAndClickOption(string option)
         {
             Log.LogInformation($"Open dropdown menu and choose option '{option}'.");
-            var locator = By.XPath(string.Format(OptionLocator, option));
             Click();
-            Driver.WaitForCondition(() => Element.FindElement(locator).Displayed);
-            Element.FindElement(locator).Click();
+            var optionElement = new DropDownOption(Element.FindElement(By.XPath(string.Format(OptionLocator, option))));
+            Driver.WaitForCondition(() => optionElement.Enabled && optionElement.Displayed);
+            optionElement.Click();
         }
 
     }

@@ -7,6 +7,8 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Remote;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
 
 namespace ReportPortal.E2E.Core.Driver
 {
@@ -70,7 +72,7 @@ namespace ReportPortal.E2E.Core.Driver
 
         private ChromeDriver GetChromeInstanceWithOptions()
         {
-            var service = ChromeDriverService.CreateDefaultService(AppDomain.CurrentDomain.BaseDirectory);
+            var service = ChromeDriverService.CreateDefaultService(new DriverManager().SetUpDriver(new ChromeConfig()));
             service.LogPath = $"{AppDomain.CurrentDomain.BaseDirectory}ChromeDriver.log";
 
             var options = new ChromeOptions();
@@ -99,7 +101,7 @@ namespace ReportPortal.E2E.Core.Driver
 
         private EdgeDriver GetEdgeInstanceWithOptions()
         {
-            var service = EdgeDriverService.CreateDefaultService(AppDomain.CurrentDomain.BaseDirectory);
+            var service = EdgeDriverService.CreateDefaultService(new DriverManager().SetUpDriver(new EdgeConfig()));
             service.LogPath = $"{AppDomain.CurrentDomain.BaseDirectory}EdgeDriver.log";
 
             var options = new EdgeOptions();

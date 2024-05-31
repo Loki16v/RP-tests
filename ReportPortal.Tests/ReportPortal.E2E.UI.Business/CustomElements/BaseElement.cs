@@ -26,7 +26,8 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
             Log = TestsLogger.Create<BaseElement>();
         }
 
-        public bool IsDisplayed => Element.Displayed;
+        public bool Displayed => Element.Displayed;
+        public bool Enabled => Element.Enabled;
         public string Text => Element.Text;
 
         public void Click()
