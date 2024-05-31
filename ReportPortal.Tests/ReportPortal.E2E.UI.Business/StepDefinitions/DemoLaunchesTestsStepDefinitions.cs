@@ -38,15 +38,15 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions
 
             foreach (var item in launchesInfo)
             {
-                var result = launches.Where(x => x.TotalCount.GetButtonText().Equals(item.Total.ToString())
-                                                 && x.PassedCount.GetButtonText().Equals(item.Passed.ToString()));
+                var result = launches.Where(x => x.TotalCount.Text.Equals(item.Total.ToString())
+                                                 && x.PassedCount.Text.Equals(item.Passed.ToString()));
                 if (item.Failed != 0)
                 {
-                    result = result.Where(x => x.FailedCount.GetButtonText().Equals(item.Failed.ToString()));
+                    result = result.Where(x => x.FailedCount.Text.Equals(item.Failed.ToString()));
                 }
                 if (item.Skipped != 0)
                 {
-                    result = result.Where(x => x.SkippedCount.GetButtonText().Equals(item.Skipped.ToString()));
+                    result = result.Where(x => x.SkippedCount.Text.Equals(item.Skipped.ToString()));
                 }
 
                 result.Should().HaveCount(1);

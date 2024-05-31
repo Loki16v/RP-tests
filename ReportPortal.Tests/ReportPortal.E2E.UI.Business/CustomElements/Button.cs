@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace ReportPortal.E2E.UI.Business.CustomElements
 {
@@ -7,16 +6,5 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
     {
         public Button(IWebElement element) : base(element) { }
 
-        public void Click()
-        {
-            Element.Click();
-        }
-
-        public string GetButtonText()
-        {
-            var text = Element.Text;
-            Log.LogInformation($"Got button text: '{text}'");
-            return text;
-        }
     }
 }

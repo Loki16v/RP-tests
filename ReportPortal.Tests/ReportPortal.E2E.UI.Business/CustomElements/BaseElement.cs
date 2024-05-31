@@ -26,35 +26,44 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
             Log = TestsLogger.Create<BaseElement>();
         }
 
-        public bool IsDisplayed()
+        public bool IsDisplayed => Element.Displayed;
+        public string Text => Element.Text;
+
+        public void Click()
         {
-            return Element.Displayed;
+            Log.LogInformation("Click element.");
+            Element.Click();
         }
 
         public void WaitElementAndClick()
         {
+            Log.LogInformation("Waiting for element and perform click.");
             Driver.WaitForCondition(() => Element.Displayed);
-            Element.Click();
+            Click();
         }
 
         public void JsClick()
         {
+            Log.LogInformation("Perform javascript click.");
             Driver.ExecuteJavaScript("arguments[0].click();", Element);
         }
 
         public string GetAttribute(string attributeName)
         {
+            Log.LogInformation($"Getting element attribute '{attributeName}'.");
             return Element.GetAttribute(attributeName);
         }
 
         public void DragAndDrop(int x, int y)
         {
+            Log.LogInformation($"Perform drag and drop action with coordinates x: '{x}', y: '{y}'.");
             new Actions(Driver).DragAndDropToOffset(Element, x, y).Perform();
         }
 
 
         public void ScrollToElement()
         {
+            Log.LogInformation($"Scroll to element.");
             if (!IsElementIntoView())
                Driver.ExecuteJavaScript("arguments[0].scrollIntoView(true);", Element);
         }
@@ -74,6 +83,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
 
         public BaseElement WaitUntilAppear()
         {
+            Log.LogInformation($"Wait until element appears.");
             var fluentWait = new DefaultWait<IWebDriver>(Driver)
             {
                 Timeout = TimeSpan.FromSeconds(DefaultTimeout),
@@ -86,6 +96,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
 
         public bool WaitUntilDisappear()
         {
+            Log.LogInformation($"Wait until element disappears.");
             var wait = new DefaultWait<IWebDriver>(Driver)
             {
                 Timeout = TimeSpan.FromSeconds(DefaultTimeout),

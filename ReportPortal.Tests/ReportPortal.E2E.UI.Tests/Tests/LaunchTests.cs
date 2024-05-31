@@ -45,6 +45,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         [Test]
         public void Compare_Launches_Modal()
         {
+            var expectedModalTitle = "COMPARE LAUNCHES";
+
             NavigationContext.GoToLaunchesPage(Project);
             var launches = LaunchesContext.WaitForReady().GetLaunches();
             LaunchesContext.ScrollIntoLaunch(launches.Last())
@@ -54,7 +56,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
 
             using (new AssertionScope())
             {
-                LaunchesContext.GetCompareModalTitle().Should().Be("COMPARE LAUNCHES");
+                LaunchesContext.GetCompareModalTitle().Should().Be(expectedModalTitle);
                 LaunchesContext.GetCompareModalSize().Item1.Should().BeGreaterThan(0);
                 LaunchesContext.GetCompareModalSize().Item2.Should().BeGreaterThan(0);
 
@@ -78,11 +80,14 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         [Test]
         public void Resize_Dashboard()
         {
+            var positionX = -100;
+            var positionY = -100;
+
             NavigationContext.GoToDashboardsPage(Project);
             DashboardsContext.WaitForReady().GetDashboards().First().Click();
             var chartToResize = DashboardChartsContext.WaitForReady().GetCharts().First();
             var initialPosition = DashboardChartsContext.GetPosition(chartToResize);
-            var resizedPosition = DashboardChartsContext.ResizeChart(chartToResize, -100, -100).GetPosition(chartToResize);
+            var resizedPosition = DashboardChartsContext.ResizeChart(chartToResize, positionX, positionY).GetPosition(chartToResize);
 
             using (new AssertionScope())
             {
@@ -117,6 +122,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         [Ignore("Fail test for screenshot")]
         public void TEST_TO_FAIL_AND_GET_SCREENSHOT()
         {
+            var expectedModalTitle = "COMPARE LAUNCHES";
+
             NavigationContext.GoToLaunchesPage(Project);
             var launches = LaunchesContext.WaitForReady().GetLaunches();
             LaunchesContext.ScrollIntoLaunch(launches.Last())
@@ -126,7 +133,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
 
             using (new AssertionScope())
             {
-                LaunchesContext.GetCompareModalTitle().Should().Be("COMPARE LAUNCHES");
+                LaunchesContext.GetCompareModalTitle().Should().Be(expectedModalTitle);
                 LaunchesContext.GetCompareModalSize().Item1.Should().BeGreaterThan(0);
                 LaunchesContext.GetCompareModalSize().Item2.Should().BeGreaterThan(0);
                 LaunchesContext.IsModalDisappeared().Should().BeTrue();

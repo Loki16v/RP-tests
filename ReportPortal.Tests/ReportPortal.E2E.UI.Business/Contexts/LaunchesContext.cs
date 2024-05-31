@@ -81,7 +81,7 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         public string GetCompareModalTitle()
         {
-            return LaunchesPage.CompareModal.Title.GetText();
+            return LaunchesPage.CompareModal.Title.Text;
         }
 
         public (int, int) GetCompareModalSize()

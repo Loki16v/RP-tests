@@ -12,11 +12,10 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
 
         public void OpenAndClickOption(string option)
         {
-            Log.LogInformation($"Open dropdown menu and waiting for option {option} to be displayed.");
+            Log.LogInformation($"Open dropdown menu and choose option '{option}'.");
             var locator = By.XPath(string.Format(OptionLocator, option));
-            Element.Click();
+            Click();
             Driver.WaitForCondition(() => Element.FindElement(locator).Displayed);
-            Log.LogInformation($"Click option {option}.");
             Element.FindElement(locator).Click();
         }
 

@@ -12,7 +12,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
             if (!IsChecked())
             {
                 Log.LogInformation("Checking checkbox.");
-                Element.Click();
+                Click();
                 return;
             }
             Log.LogDebug("Checkbox is already checked.");
@@ -23,7 +23,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
             if (IsChecked())
             {
                 Log.LogInformation("Uncheck checkbox.");
-                Element.Click();
+                Click();
                 return;
             }
             Log.LogDebug("Checkbox is already unchecked.");
@@ -33,7 +33,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
         {
             var isChecked = Element.GetAttribute("class").Contains("checked");
             Log.LogInformation($"Checkbox is {(isChecked ? "checked." : "unchecked.")}");
-        return isChecked;
+            return isChecked;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace ReportPortal.E2E.UI.Business.Pages.Containers
         internal Checkbox LaunchSelectCheckbox => new(Element.FindElement(By.XPath(LaunchSelectCheckboxLocator)));
         internal DropDown CommonMenuDropDown => new(Element.FindElement(By.XPath(MenuButtonLocator)));
 
-        public string GetName => Name.GetButtonText();
+        public string GetName => Name.Text;
         
     }
 }
