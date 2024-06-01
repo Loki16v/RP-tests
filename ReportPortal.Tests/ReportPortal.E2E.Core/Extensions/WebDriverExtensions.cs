@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
+using ReportPortal.E2E.Core.Logger;
 
 namespace ReportPortal.E2E.Core.Extensions
 {
@@ -11,7 +13,8 @@ namespace ReportPortal.E2E.Core.Extensions
     {
         private static readonly int DefaultTimeout =
             TestsBootstrap.Instance.Configuration.GetSection("DefaultTimeout").Get<int>();
-        
+        private static readonly ILogger Log = TestsLogger.Create("WebDriverExtensions");
+
         public static void WaitForCondition(this IWebDriver driver, Func<bool> condition, TimeSpan conditionTimeOut = default)
         {
             var wait = new WebDriverWait(driver, conditionTimeOut == default
@@ -50,9 +53,9 @@ namespace ReportPortal.E2E.Core.Extensions
             {
                 driver.ExecuteJavaScript("lambda-status=" + (status == TestStatus.Passed ? "passed" : "failed"));
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored
+                Log.LogDebug($"Caught exception while executing script to update lambda test status: {ex.Message}");
             }
         }
 
