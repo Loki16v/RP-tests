@@ -2,7 +2,6 @@ using FluentAssertions;
 using ReportPortal.E2E.Core.Driver;
 using ReportPortal.E2E.Core.Models;
 using ReportPortal.E2E.UI.Business.Contexts;
-using ReportPortal.E2E.UI.Business.Pages;
 using TechTalk.SpecFlow;
 
 namespace ReportPortal.E2E.UI.Business.StepDefinitions
@@ -22,7 +21,7 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions
         [When(@"I am on Launch page of '([^']*)' project")]
         public void WhenIAmOnLaunchPageOf(string projectName)
         {
-            _navigationContext.GoTo(LaunchesPage.Url, projectName);
+            _navigationContext.GoToLaunchesPage(projectName);
         }
 
         [Then(@"'([^']*)' launches are displayed")]

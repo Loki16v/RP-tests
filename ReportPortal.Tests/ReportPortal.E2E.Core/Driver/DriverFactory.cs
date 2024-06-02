@@ -1,14 +1,23 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Remote;
+using ReportPortal.E2E.Core.Extensions;
+using ReportPortal.E2E.Core.Models;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
 
 namespace ReportPortal.E2E.Core.Driver
 {
     public class DriverFactory
     {
+        private static readonly RemoteRunOptions RemoteRunOptions =
+            TestsBootstrap.Instance.ServiceProvider.GetService<RemoteRunOptions>();
         private static readonly int DefaultTimeOut =
-            TestsBootstrap.Instance.Configuration.GetSection("DefaultTimeout").Get<int>();
+            TestsBootstrap.Instance.Configuration.GetSection("ImplicitWaitTimeOut").Get<int>();
         private static readonly int PageLoadTimeOut =
             TestsBootstrap.Instance.Configuration.GetSection("PageLoadTimeOut").Get<int>();
 
@@ -16,12 +25,37 @@ namespace ReportPortal.E2E.Core.Driver
 
         public DriverFactory(string browser)
         {
-            _driver = browser switch
+            Enum.TryParse(browser, out Browser browserName);
+            if (bool.Parse(TestsBootstrap.Instance.Configuration.GetSection("RemoteRun").GetValueOrThrow()))
             {
-                "Chrome" => GetChromeInstanceWithOptions(),
-                "Edge" => GetEdgeInstanceWithOptions(),
-                _ => throw new NotSupportedException($"BrowserType {browser} is not supported.")
-            };
+                var options = new Dictionary<string, object>
+                {
+                    { "name", TestContext.CurrentContext.Test.Name },
+                    { "username", RemoteRunOptions.UserName },
+                    { "accessKey", RemoteRunOptions.AccessKey },
+                    { "platformName", RemoteRunOptions.PlatformName },
+                    { "build", "ReportPortal.E2E.UI.Tests" },
+                    { "project", "TestRun" },
+                    { "w3c", true },
+                    { "plugin", "c#-nunit" }
+                };
+
+                _driver = browserName switch
+                {
+                    Browser.Chrome => GetChromeRemoteDriver(options),
+                    Browser.Edge => GetEdgeRemoteDriver(options),
+                    _ => throw new NotSupportedException($"BrowserType {browser} is not supported.")
+                };
+            }
+            else
+            {
+                _driver = browserName switch
+                {
+                    Browser.Chrome => GetChromeInstanceWithOptions(),
+                    Browser.Edge => GetEdgeInstanceWithOptions(),
+                    _ => throw new NotSupportedException($"BrowserType {browser} is not supported.")
+                };
+            }
         }
         public IWebDriver GetDriver()
         {
@@ -38,7 +72,7 @@ namespace ReportPortal.E2E.Core.Driver
 
         private ChromeDriver GetChromeInstanceWithOptions()
         {
-            var service = ChromeDriverService.CreateDefaultService(AppDomain.CurrentDomain.BaseDirectory);
+            var service = ChromeDriverService.CreateDefaultService(new DriverManager().SetUpDriver(new ChromeConfig()));
             service.LogPath = $"{AppDomain.CurrentDomain.BaseDirectory}ChromeDriver.log";
 
             var options = new ChromeOptions();
@@ -67,7 +101,7 @@ namespace ReportPortal.E2E.Core.Driver
 
         private EdgeDriver GetEdgeInstanceWithOptions()
         {
-            var service = EdgeDriverService.CreateDefaultService(AppDomain.CurrentDomain.BaseDirectory);
+            var service = EdgeDriverService.CreateDefaultService(new DriverManager().SetUpDriver(new EdgeConfig()));
             service.LogPath = $"{AppDomain.CurrentDomain.BaseDirectory}EdgeDriver.log";
 
             var options = new EdgeOptions();
@@ -90,6 +124,36 @@ namespace ReportPortal.E2E.Core.Driver
 
             var driver = new EdgeDriver(service, options);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(DefaultTimeOut); 
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(PageLoadTimeOut);
+            return driver;
+        }
+
+        private RemoteWebDriver GetChromeRemoteDriver(Dictionary<string, object> options)
+        {
+
+            var capabilities = new ChromeOptions
+            {
+                BrowserVersion = RemoteRunOptions.ChromeVersion
+            };
+            capabilities.AddAdditionalOption("LT:Options", options);
+
+            var driver = new RemoteWebDriver(new Uri(RemoteRunOptions.RemoteDriverUrl), capabilities);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(DefaultTimeOut);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(PageLoadTimeOut);
+            return driver;
+        }
+
+        private RemoteWebDriver GetEdgeRemoteDriver(Dictionary<string, object> options)
+        {
+
+            var capabilities = new EdgeOptions
+            {
+                BrowserVersion = RemoteRunOptions.EdgeVersion
+            };
+            capabilities.AddAdditionalOption("LT:Options", options);
+
+            var driver = new RemoteWebDriver(new Uri(RemoteRunOptions.RemoteDriverUrl), capabilities);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(DefaultTimeOut);
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(PageLoadTimeOut);
             return driver;
         }

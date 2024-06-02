@@ -1,7 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
+using ReportPortal.E2E.Core.Logger;
 
 namespace ReportPortal.E2E.Core.Extensions
 {
@@ -9,6 +13,7 @@ namespace ReportPortal.E2E.Core.Extensions
     {
         private static readonly int DefaultTimeout =
             TestsBootstrap.Instance.Configuration.GetSection("DefaultTimeout").Get<int>();
+        private static readonly ILogger Log = TestsLogger.Create("WebDriverExtensions");
 
         public static void WaitForCondition(this IWebDriver driver, Func<bool> condition, TimeSpan conditionTimeOut = default)
         {
@@ -16,12 +21,6 @@ namespace ReportPortal.E2E.Core.Extensions
                 ? TimeSpan.FromSeconds(DefaultTimeout)
                 : conditionTimeOut);
             wait.Until(_ => condition.Invoke());
-        }
-
-        public static void WaitElementAndClick(this IWebDriver driver, IWebElement element)
-        {
-            driver.WaitForCondition(() => element.Displayed);
-            element.Click();
         }
 
         public static void SetLocalStorageItem(this IWebDriver driver, string key, string valueInJsonFormat)
@@ -46,6 +45,27 @@ namespace ReportPortal.E2E.Core.Extensions
         {
             var func = $"return document.evaluate(\"{xPath}\", document, null, XPathResult.BOOLEAN_TYPE, null).booleanValue";
             return driver.ExecuteJavaScript<bool>(func);
+        }
+
+        public static void UpdateLambdaTestStatus(this IWebDriver driver, TestStatus status)
+        {
+            try
+            {
+                driver.ExecuteJavaScript("lambda-status=" + (status == TestStatus.Passed ? "passed" : "failed"));
+            }
+            catch (Exception ex)
+            {
+                Log.LogDebug($"Caught exception while executing script to update lambda test status: {ex.Message}");
+            }
+        }
+
+        public static void TakeScreenShot(this IWebDriver driver)
+        {
+            var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+            var screenshotPath = Path.Combine(AppContext.BaseDirectory, "TestResults");
+            if (!Directory.Exists(screenshotPath)) Directory.CreateDirectory(screenshotPath);
+            screenshot.SaveAsFile(Path.Combine(screenshotPath,
+                $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now:yy_MM_dd__HH_mm_ss}.png"));
         }
     }
 }
