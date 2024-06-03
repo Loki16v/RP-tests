@@ -8,30 +8,30 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers
 {
     public class ClientsHandler
     {
-        private static ConcurrentDictionary<string, AuthorizationMessageHandler> _authenticationHandlers;
+        private static readonly ConcurrentDictionary<string, AuthorizationMessageHandler> AuthenticationHandlers =
+            new ConcurrentDictionary<string, AuthorizationMessageHandler>();
         private readonly IHttpClient _httpClient;
         private readonly string _baseUrl = TestsBootstrap.Instance.ServiceProvider.GetRequiredService<ReportPortalConfig>().BaseUrl;
 
         public ClientsHandler()
         {
-            _authenticationHandlers = new ConcurrentDictionary<string, AuthorizationMessageHandler>();
             _httpClient = ApiClient.Get(_baseUrl);
         }
 
         public AuthorizationMessageHandler GetAuthHttpMessageHandler(UserCredentials userCredentials, bool? refreshAuth = false)
         {
-            if (!_authenticationHandlers.ContainsKey(userCredentials.UserName) || refreshAuth.GetValueOrDefault())
+            if (!AuthenticationHandlers.ContainsKey(userCredentials.UserName) || refreshAuth.GetValueOrDefault())
             {
                 CreateAuthToken(userCredentials);
             }
 
             else if (IsTokenExpired(userCredentials))
             {
-                _authenticationHandlers.Remove(userCredentials.UserName, out _);
+                AuthenticationHandlers.Remove(userCredentials.UserName, out _);
                 CreateAuthToken(userCredentials);
             }
 
-            return _authenticationHandlers[userCredentials.UserName];
+            return AuthenticationHandlers[userCredentials.UserName];
         }
 
         public TokenInformation CreateAuthToken(UserCredentials userCredentials)
@@ -43,14 +43,14 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers
                 new("password", userCredentials.Password)
             };
             var tokenInfo = _httpClient.GetToken(body);
-            _authenticationHandlers[userCredentials.UserName] = new AuthorizationMessageHandler(tokenInfo, () => CreateAuthToken(userCredentials))
+            AuthenticationHandlers[userCredentials.UserName] = new AuthorizationMessageHandler(tokenInfo, () => CreateAuthToken(userCredentials))
                 { InnerHandler = new HttpClientHandler() };
             return tokenInfo;
         }
 
         private static bool IsTokenExpired(UserCredentials userCredentials)
         {
-            var tokenInfo = _authenticationHandlers[userCredentials.UserName];
+            var tokenInfo = AuthenticationHandlers[userCredentials.UserName];
             return tokenInfo.ExpiredDate <= DateTime.UtcNow;
         }
     }

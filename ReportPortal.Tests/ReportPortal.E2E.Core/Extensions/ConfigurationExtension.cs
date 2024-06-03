@@ -6,7 +6,7 @@ namespace ReportPortal.E2E.Core.Extensions
     {
         public static string GetValueOrThrow(this IConfigurationSection section)
         {
-            return section.Value ?? throw new Exception($"{section.Path} configuration section value is not set in appsettings.json");
+            return section.Value ?? throw new NotSupportedException($"{section.Path} configuration section value is not set in appsettings.json");
         }
     }
 }

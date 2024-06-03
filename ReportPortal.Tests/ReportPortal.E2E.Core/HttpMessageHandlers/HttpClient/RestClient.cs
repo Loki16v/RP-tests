@@ -48,6 +48,14 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient
             return _restClient.Execute<T>(new RestRequest(requestUri, Method.Put).AddJsonBody(body)).Data;
         }
 
+        public void Put(string url, object body, List<KeyValuePair<string, string>> headers)
+        {
+            var httpRequest = new RestRequest(url, Method.Put);
+            headers.ForEach(x => httpRequest.AddHeader(x.Key, x.Value));
+            httpRequest.AddBody(body);
+            _restClient.Execute(httpRequest);
+        }
+
         public T Delete<T>(string requestUri)
         {
             return _restClient.Execute<T>(new RestRequest(requestUri), Method.Delete).Data;

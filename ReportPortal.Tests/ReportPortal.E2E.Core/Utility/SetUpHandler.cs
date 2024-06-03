@@ -24,8 +24,8 @@ namespace ReportPortal.E2E.Core.Utility
             catch (Exception e)
             {
                 var message = GetErrorMsg(e);
-                Log.LogInformation($"Thrown exception while preconditions were executing\n{message}");
-                throw new Exception(message, e);
+                Log.LogError(e, "Thrown exception while preconditions were executing\n{Message}", message);
+                throw new AggregateException(message, e);
             }
             finally
             {
@@ -33,7 +33,7 @@ namespace ReportPortal.E2E.Core.Utility
             }
         }
 
-        private string GetErrorMsg(Exception exception)
+        private static string GetErrorMsg(Exception exception)
         {
             return $"Marked Failed because of Setup Failed With:\n{exception.GetType().FullName}: {exception.Message}\n" +
                    $"StackTrace: {exception.StackTrace}";

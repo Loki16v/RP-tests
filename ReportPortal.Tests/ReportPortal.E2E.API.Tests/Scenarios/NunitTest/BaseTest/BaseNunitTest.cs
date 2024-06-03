@@ -12,7 +12,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest
         protected abstract void Preconditions();
 
         protected const string ProjectName = "demo-project";
-        protected static UserCredentials NewUserCredentials = NunitGlobalSetUp.NewUserCredentials;
+        protected static readonly UserCredentials NewUserCredentials = NunitGlobalSetUp.NewUserCredentials;
 
         protected ILogger Log { get; }
 
@@ -27,7 +27,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.NunitTest.BaseTest
         public void Setup()
         {
             _setUpHandler.Do(new[] { Preconditions });
-            Log.LogInformation($"{TestContext.CurrentContext.Test.FullName} started");
+            Log.LogInformation("{TestName} started", TestContext.CurrentContext.Test.FullName);
         }
 
         [OneTimeTearDown]

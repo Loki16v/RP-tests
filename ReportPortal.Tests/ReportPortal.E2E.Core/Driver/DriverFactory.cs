@@ -25,7 +25,9 @@ namespace ReportPortal.E2E.Core.Driver
 
         public DriverFactory(string browser)
         {
-            Enum.TryParse(browser, out Browser browserName);
+            if (!Enum.TryParse(browser, out Browser browserName))
+                throw new NotSupportedException($"BrowserType {browser} is not supported.");
+
             if (bool.Parse(TestsBootstrap.Instance.Configuration.GetSection("RemoteRun").GetValueOrThrow()))
             {
                 var options = new Dictionary<string, object>
@@ -44,7 +46,7 @@ namespace ReportPortal.E2E.Core.Driver
                 {
                     Browser.Chrome => GetChromeRemoteDriver(options),
                     Browser.Edge => GetEdgeRemoteDriver(options),
-                    _ => throw new NotSupportedException($"BrowserType {browser} is not supported.")
+                    _ => throw new NotSupportedException($"Unsupported browser type '{browserName}'")
                 };
             }
             else
@@ -53,7 +55,7 @@ namespace ReportPortal.E2E.Core.Driver
                 {
                     Browser.Chrome => GetChromeInstanceWithOptions(),
                     Browser.Edge => GetEdgeInstanceWithOptions(),
-                    _ => throw new NotSupportedException($"BrowserType {browser} is not supported.")
+                    _ => throw new NotSupportedException($"Unsupported browser type '{browserName}'")
                 };
             }
         }
@@ -70,7 +72,7 @@ namespace ReportPortal.E2E.Core.Driver
 
         #region Private Methods
 
-        private ChromeDriver GetChromeInstanceWithOptions()
+        private static ChromeDriver GetChromeInstanceWithOptions()
         {
             var service = ChromeDriverService.CreateDefaultService(new DriverManager().SetUpDriver(new ChromeConfig()));
             service.LogPath = $"{AppDomain.CurrentDomain.BaseDirectory}ChromeDriver.log";
@@ -99,7 +101,7 @@ namespace ReportPortal.E2E.Core.Driver
             return driver;
         }
 
-        private EdgeDriver GetEdgeInstanceWithOptions()
+        private static EdgeDriver GetEdgeInstanceWithOptions()
         {
             var service = EdgeDriverService.CreateDefaultService(new DriverManager().SetUpDriver(new EdgeConfig()));
             service.LogPath = $"{AppDomain.CurrentDomain.BaseDirectory}EdgeDriver.log";
@@ -128,7 +130,7 @@ namespace ReportPortal.E2E.Core.Driver
             return driver;
         }
 
-        private RemoteWebDriver GetChromeRemoteDriver(Dictionary<string, object> options)
+        private static RemoteWebDriver GetChromeRemoteDriver(Dictionary<string, object> options)
         {
 
             var capabilities = new ChromeOptions
@@ -143,7 +145,7 @@ namespace ReportPortal.E2E.Core.Driver
             return driver;
         }
 
-        private RemoteWebDriver GetEdgeRemoteDriver(Dictionary<string, object> options)
+        private static RemoteWebDriver GetEdgeRemoteDriver(Dictionary<string, object> options)
         {
 
             var capabilities = new EdgeOptions

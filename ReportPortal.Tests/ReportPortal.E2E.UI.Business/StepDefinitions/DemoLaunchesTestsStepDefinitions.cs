@@ -63,7 +63,7 @@ namespace ReportPortal.E2E.UI.Business.StepDefinitions
                     _launchesContext.SelectLaunches(option);
                     break;
                 default:
-                    throw new Exception("Required to use only 'All' or 'Latest' launches view.");
+                    throw new NotSupportedException("Required to use only 'All' or 'Latest' launches view.");
             }
         }
 

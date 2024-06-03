@@ -1,0 +1,147 @@
+pipeline {
+    agent { label 'TestAgent_1' }
+
+    triggers { 
+        cron('0 15 * * 1-5')
+        pollSCM('H/15 * * * *')
+    }
+    
+    options {
+        disableConcurrentBuilds()
+        retry(1)
+        timeout(unit: 'HOURS', time: 1)
+    }
+
+    environment {
+        AutomationGit='https://github.com/Loki16v/report-portal-tests.git'
+        SolutionPath="${WORKSPACE}\\ReportPortal.Tests\\ReportPortal.Tests.sln"
+        APItestsPath="${WORKSPACE}\\ReportPortal.Tests\\ReportPortal.E2E.API.Tests\\bin\\Debug\\net6.0\\ReportPortal.E2E.API.Tests.dll"
+        BDDFolderPath="${WORKSPACE}\\ReportPortal.Tests\\ReportPortal.E2E.UI.BDD.Tests\\bin\\Debug\\net6.0\\ReportPortal.E2E.UI.BDD.Tests.dll"
+        BDDRunsettingsPath="${WORKSPACE}\\ReportPortal.Tests\\ReportPortal.E2E.UI.BDD.Tests\\.runsettings"
+        UIFolderPath="${WORKSPACE}\\ReportPortal.Tests\\ReportPortal.E2E.UI.Tests\\bin\\Debug\\net6.0\\ReportPortal.E2E.UI.Tests.dll"
+    }
+
+    parameters {
+        booleanParam(name: 'ApiTests', defaultValue: true, description: 'Include API tests in test run')
+        booleanParam(name: 'BDDTests', defaultValue: true, description: 'Include BDD tests in test run')
+        booleanParam(name: 'UITests', defaultValue: true, description: 'Include UI tests in test run')
+        string(name: 'TestBranch', defaultValue: "feature/0000-ci-cd-task", description: 'Test Automation Framework Branch')
+    }
+
+    stages {
+        stage('Cleanup before run') {
+            steps {
+                deleteDir()
+                dir("${env.WORKSPACE}@tmp") { deleteDir() }
+            }
+        }
+        
+        stage('Download automation solution') {
+            steps {
+                echo "=== Start to pull ${env.AutomationGit} branch: ${params.TestBranch} ==="
+                git branch: "${params.TestBranch}", url: "${env.AutomationGit}"
+                script {
+                    if (fileExists("${WORKSPACE}\\.git\\config")) {
+                        echo "===End to pull ${env.AutomationGit}==="
+                    } else {
+                        error "===Fail in pulling ${env.AutomationGit}==="
+                    }
+                    BuildResult = 'SUCCESS'
+                }
+            }
+        }
+        
+        stage('Build automation solution') {
+            steps {
+                script {
+                    echo "Nuget Packges Restore - 'dotnet restore ReportPortal.Tests.sln'"
+        			bat "dotnet restore ${SolutionPath}"
+        			echo "Build Test Automation Solution - 'dotnet build ReportPortal.Tests.sln'"
+        			bat "dotnet build ${SolutionPath}"
+                }
+            }
+        }
+        
+        stage('Run API Tests') {
+            when{
+                expression { params.ApiTests }
+            }
+            steps {
+                script {
+                    try{
+        			    echo "=== API testrun started ==="
+        			    bat "dotnet test ${APItestsPath} --logger:\"trx;LogFileName=ApiTestResults.xml\""
+                    } catch (Exception e){
+                        BuildResult = 'FAILURE'
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                            error "=== API test run failed ==="
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    mstest testResultsFile: "${WORKSPACE}\\TestResults\\ApiTestResults.xml"
+                }
+            }
+        }
+        
+        stage('Run BDD Tests') {
+            when{
+                expression { params.BDDTests }
+            }
+            steps {
+                script {
+                    try{
+        			    echo "=== BDD testrun started ==="
+        			    bat "dotnet test --logger:\"trx;LogFileName=BddTestResults.xml\" ${BDDFolderPath} -s ${BDDRunsettingsPath}"
+                    } catch (Exception e){
+                        BuildResult = 'FAILURE'
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                            error "=== Bdd test run failed ==="
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    mstest testResultsFile: "${WORKSPACE}\\TestResults\\BddTestResults.xml"
+                }
+            }
+        }
+        
+        stage('Run UI Tests') {
+            when{
+                expression { params.UITests }
+            }
+            steps {
+                script {
+                    try{
+        			    echo "=== UI testrun started ==="
+        			    bat "dotnet test --logger:\"trx;LogFileName=UITestResults.xml\" ${UIFolderPath}"
+                    } catch (Exception e){
+                        BuildResult = 'FAILURE'
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                            error "=== UI test run failed ==="
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    mstest testResultsFile: "${WORKSPACE}\\TestResults\\UITestResults.xml"
+                }
+            }
+        }
+        
+        stage('Update pipeline status') {
+            steps{
+                script{
+                    if (BuildResult == 'FAILURE') {
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+    }
+}

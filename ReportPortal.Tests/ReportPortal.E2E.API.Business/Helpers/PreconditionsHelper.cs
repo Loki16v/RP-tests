@@ -20,7 +20,7 @@ namespace ReportPortal.E2E.API.Business.Helpers
                 .Contains(userName)) return new UserCredentials { UserName = userName, Password = DefaultPassword };
 
             var allUsers = Steps.AsAdminUser().SearchUsers<SearchUsersResponse>().UserList;
-            if (allUsers.Any(x => x.UserId.Equals(userName)))
+            if (allUsers.Exists(x => x.UserId.Equals(userName)))
             {
                 Steps.AsAdminUser().AddUserToProject<SuccessfulMessageResponse>(projectName, userName, userRole);
             }
@@ -46,7 +46,7 @@ namespace ReportPortal.E2E.API.Business.Helpers
         public static void CreateProjectWithDemoLaunches(string projectName)
         {
             var projectsList = Steps.AsAdminUser().GetProjectsList<ProjectsListResponse>();
-            if (projectsList.ProjectsList.Any(p => p.ProjectName.Equals(projectName))) return;
+            if (projectsList.ProjectsList.Exists(p => p.ProjectName.Equals(projectName))) return;
             var createProjectResponse = Steps.AsAdminUser().CreateProject<CreateProjectResponse>(projectName);
             CleanUpHelper.AddProjectId(createProjectResponse.ProjectId);
             Steps.AsAdminUser().CreateDemoData(projectName);

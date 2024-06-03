@@ -8,7 +8,7 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
         public void CreateDemoData(string projectName)
         {
             var endpoint = string.Format(Endpoints.GenerateProjectData, projectName);
-            Log.LogInformation($"CreateDemoData for project '{projectName}'\n Method: Post\n Endpoint: {endpoint}");
+            Log.LogInformation("CreateDemoData for project '{ProjectName}'\n Method: Post\n Endpoint: {Endpoint}", projectName, endpoint);
             _launchApiSteps.Post(endpoint, new { createDashboard = true });
         }
     }
