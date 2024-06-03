@@ -5,22 +5,22 @@ using TechTalk.SpecFlow.Assist;
 namespace ReportPortal.E2E.Core.Extensions
 {
     [Binding]
-    public class Transformations
+    public static class Transformations
     {
         [StepArgumentTransformation]
-        public List<LaunchModel> ParseTable(Table table)
+        public static List<LaunchModel> ParseTable(Table table)
         {
             return table.CreateSet<LaunchModel>().ToList();
         }
 
         [StepArgumentTransformation]
-        public bool IsEnabled(string state)
+        public static bool IsEnabled(string state)
         {
             return state switch
             {
                 "enabled" => true,
                 "disabled" => false,
-                _ => throw new Exception($"Expected 'enabled' or 'disabled' only, but was '{state}'")
+                _ => throw new NotSupportedException($"Expected 'enabled' or 'disabled' only, but was '{state}'")
             };
         }
     }

@@ -32,7 +32,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
         public bool IsChecked()
         {
             var isChecked = Element.GetAttribute("class").Contains("checked");
-            Log.LogInformation($"Checkbox is {(isChecked ? "checked." : "unchecked.")}");
+            Log.LogInformation("Checkbox is {IsChecked}", (isChecked ? "checked." : "unchecked."));
             return isChecked;
         }
     }

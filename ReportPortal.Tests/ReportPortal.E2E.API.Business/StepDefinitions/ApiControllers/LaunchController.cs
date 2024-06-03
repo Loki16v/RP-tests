@@ -9,28 +9,28 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
         public T GetLaunchNames<T>(string projectName)
         {
             var endpoint = string.Format(Endpoints.GetLaunchNames, projectName);
-            Log.LogInformation($"GetLaunchNames for project '{projectName}'\n Method: Get\n Endpoint: {endpoint}");
+            Log.LogInformation("GetLaunchNames for project '{ProjectName}'\n Method: Get\n Endpoint: {Endpoint}", projectName, endpoint);
             return _launchApiSteps.Get<T>(endpoint);
         }
       
-        public T GetLaunchesByFilter<T>(string projectName, string query = null)
+        public T GetLaunchesByFilter<T>(string projectName, string query = "")
         {
-            var endpoint = string.Format(Endpoints.GetLaunchesByFilter, projectName) + query ?? "";
-            Log.LogInformation($"GetLaunchesByFilter for project '{projectName}'\n Method: Get\n Endpoint: {endpoint}");
+            var endpoint = string.Format(Endpoints.GetLaunchesByFilter, projectName) + query;
+            Log.LogInformation("GetLaunchesByFilter for project '{ProjectName}'\n Method: Get\n Endpoint: {Endpoint}", projectName, endpoint);
             return _launchApiSteps.Get<T>(endpoint);
         }
 
         public T GetLatestLaunchByFilter<T>(string projectName, string query)
         {
             var endpoint = string.Format(Endpoints.GetLatestLaunchByFilter, projectName) + query;
-            Log.LogInformation($"GetLatestLaunchByFilter for project '{projectName}'\n Method: Get\n Endpoint: {endpoint}");
+            Log.LogInformation("GetLatestLaunchByFilter for project '{ProjectName}'\n Method: Get\n Endpoint: {Endpoint}", projectName, endpoint);
             return _launchApiSteps.Get<T>(endpoint);
         }
 
         public T GetLaunchById<T>(string projectName, int id)
         {
             var endpoint = string.Format(Endpoints.GetLaunchById, projectName, id);
-            Log.LogInformation($"GetLaunchById for project '{projectName}'\n Method: Get\n Endpoint: {endpoint}");
+            Log.LogInformation("GetLaunchById for project '{ProjectName}'\n Method: Get\n Endpoint: {Endpoint}", projectName, endpoint);
             return _launchApiSteps.Get<T>(endpoint);
         }
 
@@ -42,21 +42,21 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
                 removeNumbers = removeNumbers
             };
             var endpoint = string.Format(Endpoints.PostCluster, projectName);
-            Log.LogInformation($"PostLaunchCluster for project '{projectName}'\n Method: Post\n Endpoint: {endpoint}");
+            Log.LogInformation("PostLaunchCluster for project '{ProjectName}'\n Method: Post\n Endpoint: {Endpoint}", projectName, endpoint);
             return _launchApiSteps.Post<T>(endpoint, body);
         }
 
         public T PutLaunchUpdate<T>(string projectName, int launchId, UpdateLaunchRequest body)
         {
             var endpoint = string.Format(Endpoints.LaunchUpdate, projectName, launchId);
-            Log.LogInformation($"PutLaunchUpdate for project '{projectName}'\n Method: Put\n Endpoint: {endpoint}");
+            Log.LogInformation("PutLaunchUpdate for project '{ProjectName}'\n Method: Put\n Endpoint: {Endpoint}", projectName, endpoint);
             return _launchApiSteps.Put<T>(endpoint, body);
         }
 
         public T DeleteLaunchById<T>(string projectName, int launchId)
         {
             var endpoint = string.Format(Endpoints.DeleteLaunchById, projectName, launchId);
-            Log.LogInformation($"DeleteLaunchById for project '{projectName}'\n Method: Delete\n Endpoint: {endpoint}");
+            Log.LogInformation("DeleteLaunchById for project '{ProjectName}'\n Method: Delete\n Endpoint: {Endpoint}", projectName, endpoint);
             return _launchApiSteps.Delete<T>(endpoint);
         }
     }

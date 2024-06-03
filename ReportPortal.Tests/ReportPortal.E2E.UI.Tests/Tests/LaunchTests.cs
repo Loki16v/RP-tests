@@ -49,8 +49,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
 
             NavigationContext.GoToLaunchesPage(Project);
             var launches = LaunchesContext.WaitForReady().GetLaunches();
-            LaunchesContext.ScrollIntoLaunch(launches.Last())
-                .SelectLaunch(launches.Last())
+            LaunchesContext.ScrollIntoLaunch(launches[^1])
+                .SelectLaunch(launches[^1])
                 .SelectLaunch(launches[^2])
                 .ClickCompareButton();
 
@@ -70,7 +70,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         public void Delete_Launch()
         {
             NavigationContext.GoToLaunchesPage(Project);
-            var launchToDelete = LaunchesContext.WaitForReady().GetLaunches().First();
+            var launchToDelete = LaunchesContext.WaitForReady().GetLaunches()[0];
             var launchFullName = launchToDelete.GetName;
             LaunchesContext.DeleteLaunchFromLaunchMenu(launchToDelete).ConfirmDeletion();
 
@@ -84,8 +84,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             var positionY = -100;
 
             NavigationContext.GoToDashboardsPage(Project);
-            DashboardsContext.WaitForReady().GetDashboards().First().Click();
-            var chartToResize = DashboardChartsContext.WaitForReady().GetCharts().First();
+            DashboardsContext.WaitForReady().GetDashboards()[0].Click();
+            var chartToResize = DashboardChartsContext.WaitForReady().GetCharts()[0];
             var initialPosition = DashboardChartsContext.GetPosition(chartToResize);
             var resizedPosition = DashboardChartsContext.ResizeChart(chartToResize, positionX, positionY).GetPosition(chartToResize);
 
@@ -102,7 +102,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         public void Move_Dashboard()
         {
             NavigationContext.GoToDashboardsPage(Project);
-            DashboardsContext.WaitForReady().GetDashboards().First().Click();
+            DashboardsContext.WaitForReady().GetDashboards()[0].Click();
             var chartToMove = DashboardChartsContext.WaitForReady().GetCharts()[1];
             var initialPosition = DashboardChartsContext.GetPosition(chartToMove);
             var movedPosition = DashboardChartsContext
@@ -126,8 +126,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
 
             NavigationContext.GoToLaunchesPage(Project);
             var launches = LaunchesContext.WaitForReady().GetLaunches();
-            LaunchesContext.ScrollIntoLaunch(launches.Last())
-                .SelectLaunch(launches.Last())
+            LaunchesContext.ScrollIntoLaunch(launches[^1])
+                .SelectLaunch(launches[^1])
                 .SelectLaunch(launches[^2])
                 .ClickCompareButton();
 

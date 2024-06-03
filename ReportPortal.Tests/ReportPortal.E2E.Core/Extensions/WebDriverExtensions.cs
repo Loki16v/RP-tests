@@ -55,7 +55,7 @@ namespace ReportPortal.E2E.Core.Extensions
             }
             catch (Exception ex)
             {
-                Log.LogDebug($"Caught exception while executing script to update lambda test status: {ex.Message}");
+                Log.LogError(ex, "Caught exception while executing script to update lambda test status: {Message}", ex.Message);
             }
         }
 

@@ -86,8 +86,8 @@ namespace ReportPortal.E2E.UI.Business.Contexts
 
         public (int, int) GetCompareModalSize()
         {
-            int.TryParse(LaunchesPage.CompareModal.Content.GetAttribute("height"), out int height);
-            int.TryParse(LaunchesPage.CompareModal.Content.GetAttribute("width"), out int width);
+            var height = int.Parse(LaunchesPage.CompareModal.Content.GetAttribute("height"));
+            var width = int.Parse(LaunchesPage.CompareModal.Content.GetAttribute("width"));
             return (height, width);
         }
 

@@ -29,7 +29,7 @@ namespace ReportPortal.E2E.API.Business
 
         public static ReportPortalApiSteps AsUser(UserCredentials user, bool refreshToken = false)
         {
-            Log.LogInformation($"Logging as {user.UserName}");
+            Log.LogInformation("Logging as {UserName}", user.UserName);
             var messageHandler = ClientsHandler
                 .GetAuthHttpMessageHandler(user, refreshToken);
 

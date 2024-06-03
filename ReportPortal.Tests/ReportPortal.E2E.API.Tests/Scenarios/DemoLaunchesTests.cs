@@ -18,7 +18,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
     public class DemoLaunchesTests : BaseNunitTest
     {
         private new static readonly string ProjectName = $"AQA-Project-{RandomValuesHelper.RandomString(5)}";
-        private static List<LaunchItem> _projectLaunches;
+        private List<LaunchItem> _projectLaunches;
 
         protected override void Preconditions()
         {
@@ -51,7 +51,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
         [Test]
         public void Post_Create_Launch_Cluster()
         {
-            var launchId = _projectLaunches.First().Id;
+            var launchId = _projectLaunches[0].Id;
             var createClusterMessage = Steps.AsAdminUser().PostLaunchCluster<SuccessfulMessageResponse>(ProjectName, launchId.ToString()).Message;
 
             createClusterMessage.Should().Be($"Clusters generation for launch with ID='{launchId}' started.");
@@ -84,7 +84,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
         [Test]
         public void Put_Launch_Update()
         {
-            var launchId = _projectLaunches.First().Id;
+            var launchId = _projectLaunches[0].Id;
             var requestBody = new UpdateLaunchRequest
             {
                 Description = RandomValuesHelper.RandomString(30),
@@ -109,13 +109,13 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
                 getActualLaunchInfo.Mode.Should().Be(LaunchMode.Default);
                 getActualLaunchInfo.Attributes.Single().Key.Should().Be(requestBody.Attributes.Single().Key);
                 getActualLaunchInfo.Attributes.Single().Value.Should().Be(requestBody.Attributes.Single().Value);
-            };
+            }
         }
 
         [Test]
         public void Put_Launch_Update_With_Empty_Attribute_Value_Returns_Error()
         {
-            var launchId = _projectLaunches.First().Id;
+            var launchId = _projectLaunches[0].Id;
             var requestBody = new UpdateLaunchRequest
             {
                 Description = RandomValuesHelper.RandomString(30),
@@ -143,7 +143,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
                 actualLaunchInfo.Name.Should().Be(expectedLaunchInfo.Name);
                 actualLaunchInfo.Mode.Should().Be(expectedLaunchInfo.Mode);
                 actualLaunchInfo.Attributes.Should().BeEquivalentTo(expectedLaunchInfo.Attributes);
-            };
+            }
         }
 
         [Test]
@@ -155,13 +155,13 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
             {
                 updateMessageBody.ErrorCode.Should().Be(ResponseStatus.NotFound.GetCode());
                 updateMessageBody.Message.Should().Be($"Launch '{int.MaxValue}' not found. Did you use correct Launch ID?");
-            };
+            }
         }
 
         [Test]
         public void Patch_Launch_Description_Update()
         {
-            var launchId = _projectLaunches.First().Id;
+            var launchId = _projectLaunches[0].Id;
             var description = RandomValuesHelper.RandomString(100);
             var requestBody = new UpdateLaunchRequest { Description = description };
 
@@ -183,7 +183,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
         [Test]
         public void Patch_Launch_Attribute_With_Null_Value_Returns_Error()
         {
-            var launchId = _projectLaunches.First().Id;
+            var launchId = _projectLaunches[0].Id;
             var requestBody = new UpdateLaunchRequest { Attributes = new List<ItemAttribute>
             {
                 new()
@@ -212,7 +212,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
         [Test]
         public void Patch_Launch_Attribute_With_WhiteSpace_Value_Returns_Error()
         {
-            var launchId = _projectLaunches.First().Id;
+            var launchId = _projectLaunches[0].Id;
             var requestBody = new UpdateLaunchRequest
             {
                 Attributes = new List<ItemAttribute>
@@ -244,7 +244,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
         [Test]
         public void Delete_Launch_By_Id()
         {
-            var launchId = _projectLaunches.Last().Id;
+            var launchId = _projectLaunches[^1].Id;
             var deleteResponseBody = Steps.AsAdminUser().DeleteLaunchById<SuccessfulMessageResponse>(ProjectName, launchId);
             var deletedLaunchResponse = Steps.AsAdminUser().GetLaunchById<ErrorResponse>(ProjectName, launchId);
 
@@ -265,7 +265,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios
             {
                 deleteLaunchResponse.ErrorCode.Should().Be(ResponseStatus.NotFound.GetCode());
                 deleteLaunchResponse.Message.Should().Be($"Launch '{int.MaxValue}' not found. Did you use correct Launch ID?");
-            };
+            }
         }
     }
 }

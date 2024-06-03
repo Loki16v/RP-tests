@@ -5,14 +5,14 @@ using ReportPortal.E2E.Core.Models;
 namespace ReportPortal.E2E.API.Tests
 {
     [SetUpFixture]
-    public class NunitGlobalSetUp
+    public static class NunitGlobalSetUp
     {
         private const string NewUser = "new_user";
-        protected const string ProjectName = "demo-project";
-        internal static UserCredentials NewUserCredentials;
+        public const string ProjectName = "demo-project";
+        public static UserCredentials NewUserCredentials { get; set; }
 
         [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public static void OneTimeSetUp()
         {
             PreconditionsHelper.CreateProjectWithDemoLaunches(ProjectName);
             NewUserCredentials = PreconditionsHelper.CreateNewUser(ProjectName, NewUser);
