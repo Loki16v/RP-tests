@@ -85,7 +85,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
 
             NavigationContext.GoToDashboardsPage(Project);
             DashboardsContext.WaitForReady().GetDashboards()[0].Click();
-            var chartToResize = DashboardChartsContext.WaitForReady().GetCharts()[0];
+            var chartToResize = DashboardChartsContext.WaitForReady().GetCharts()[3];
             var initialPosition = DashboardChartsContext.GetPosition(chartToResize);
             var resizedPosition = DashboardChartsContext.ResizeChart(chartToResize, positionX, positionY).GetPosition(chartToResize);
 
