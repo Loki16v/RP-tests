@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using ReportPortal.Serilog;
+using Serilog;
 
 namespace ReportPortal.E2E.Core.Logger
 {
@@ -20,8 +21,8 @@ namespace ReportPortal.E2E.Core.Logger
 
                 return new LoggerConfiguration()
                     .WriteTo.Logger(l => l.WriteTo.File(
-                        filePath,
-                        outputTemplate: OutputTemplate))
+                        filePath, outputTemplate: OutputTemplate))
+                    .WriteTo.ReportPortal()
                     .CreateLogger();
             }
             catch (Exception)
