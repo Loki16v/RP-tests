@@ -2,7 +2,7 @@
 
   "$schema": "https://raw.githubusercontent.com/reportportal/agent-net-nunit/master/src/ReportPortal.NUnitExtension/ReportPortal.config.schema",
 
-  "enabled": false,
+  "enabled": true,
 
   "server": {
 
@@ -20,7 +20,7 @@
 
     "description": "",
 
-    "debugMode": true,
+    "debugMode": false,
 
     "attributes": [ "main", "dev" ]
 

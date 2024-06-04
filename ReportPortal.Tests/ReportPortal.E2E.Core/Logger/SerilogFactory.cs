@@ -19,7 +19,7 @@ namespace ReportPortal.E2E.Core.Logger
                     File.Delete(filePath);
                 }
 
-                return new LoggerConfiguration()
+                return new LoggerConfiguration().MinimumLevel.Error()
                     .WriteTo.Logger(l => l.WriteTo.File(
                         filePath, outputTemplate: OutputTemplate))
                     .WriteTo.ReportPortal()
