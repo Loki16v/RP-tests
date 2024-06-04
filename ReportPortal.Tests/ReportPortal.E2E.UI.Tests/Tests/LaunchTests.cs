@@ -103,7 +103,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         {
             NavigationContext.GoToDashboardsPage(Project);
             DashboardsContext.WaitForReady().GetDashboards()[0].Click();
-            var chartToMove = DashboardChartsContext.WaitForReady().GetCharts()[1];
+            var chartToMove = DashboardChartsContext.WaitForReady().GetCharts()[2];
             var initialPosition = DashboardChartsContext.GetPosition(chartToMove);
             var movedPosition = DashboardChartsContext
                 .MoveChart(chartToMove, initialPosition.Width, initialPosition.Height)
