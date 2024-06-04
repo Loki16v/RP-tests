@@ -13,9 +13,9 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
             return _launchApiSteps.Get<T>(endpoint);
         }
       
-        public T GetLaunchesByFilter<T>(string projectName, string query = "")
+        public T GetLaunchesByFilter<T>(string projectName, string query = null)
         {
-            var endpoint = string.Format(Endpoints.GetLaunchesByFilter, projectName) + query;
+            var endpoint = string.Format(Endpoints.GetLaunchesByFilter, projectName) + query ?? "";
             Log.LogInformation("GetLaunchesByFilter for project '{ProjectName}'\n Method: Get\n Endpoint: {Endpoint}", projectName, endpoint);
             return _launchApiSteps.Get<T>(endpoint);
         }
