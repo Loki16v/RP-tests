@@ -23,7 +23,7 @@ namespace ReportPortal.E2E.Core.Logger
                     .WriteTo.ReportPortal()
                     .WriteTo.Logger(l => l.WriteTo.File(
                         filePath, outputTemplate: OutputTemplate))
-                    .MinimumLevel.Verbose()
+                    .MinimumLevel.Debug()
                     .CreateLogger();
             }
             catch (Exception)
