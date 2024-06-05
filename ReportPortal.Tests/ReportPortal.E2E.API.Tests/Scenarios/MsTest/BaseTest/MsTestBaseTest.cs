@@ -9,7 +9,7 @@ namespace ReportPortal.E2E.API.Tests.Scenarios.MsTest.BaseTest
     {
         private const string NewUser = "new_user";
         protected const string ProjectName = "demo-project";
-        public static UserCredentials NewUserCredentials;
+        public static UserCredentials NewUserCredentials { get; set; }
 
         [AssemblyInitialize]
         public static void AssemblyInitialize(TestContext context)

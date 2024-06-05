@@ -13,7 +13,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
 
         public void OpenAndClickOption(string option)
         {
-            Log.LogInformation($"Open dropdown menu and choose option '{option}'.");
+            Log.LogInformation("Open dropdown menu and choose option '{Option}'.", option);
             Click();
             var optionElement = new DropDownOption(Element.FindElement(By.XPath(string.Format(OptionLocator, option))));
             Driver.WaitForCondition(() => optionElement.Enabled && optionElement.Displayed);

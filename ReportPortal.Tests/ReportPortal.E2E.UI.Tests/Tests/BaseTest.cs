@@ -7,6 +7,7 @@ using ReportPortal.E2E.API.Business.Helpers;
 using ReportPortal.E2E.Core;
 using ReportPortal.E2E.Core.Driver;
 using ReportPortal.E2E.Core.Extensions;
+using ReportPortal.E2E.Core.Helpers;
 using ReportPortal.E2E.Core.Models;
 using ReportPortal.E2E.UI.Business.Contexts;
 
@@ -64,7 +65,13 @@ namespace ReportPortal.E2E.UI.Tests.Tests
 
             if (bool.Parse(TestsBootstrap.Instance.Configuration.GetSection("RemoteRun").GetValueOrThrow()))
                 Driver.UpdateLambdaTestStatus(testResult);
-            
+
+            var testCaseIds = TestContext.CurrentContext.Test.Properties["TestCaseId"].ToList();
+            if (testCaseIds.Any())
+            {
+                JiraHelper.UpdateTestCaseStatus(testCaseIds.Single().ToString(), testResult);
+            }
+
             _driverFactory.CloseDriver();
         }
 

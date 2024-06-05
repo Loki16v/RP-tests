@@ -22,14 +22,15 @@ namespace ReportPortal.E2E.API.Business.StepDefinitions.ApiControllers
                 projectRole = projectRole.GetName()
             };
             var endpoint = Endpoints.Users;
-            Log.LogInformation($"CreateUser '{userName}' as '{projectRole}' in '{projectName}'\n Method: Post\n Endpoint: {endpoint}");
+            Log.LogInformation("CreateUser '{UserName}' as '{ProjectRole}' in '{ProjectName}'\n Method: Post\n Endpoint: {Endpoint}",
+                userName, projectRole, projectName, endpoint);
             _launchApiSteps.Post(endpoint, requestBody);
         }
 
         public T SearchUsers<T>(string query = null)
         {
             var endpoint = query is null ? Endpoints.SearchUsers : Endpoints.SearchUsers + query;
-            Log.LogInformation($"SearchUsers by query\n Method: Get\n Endpoint: {endpoint}");
+            Log.LogInformation("SearchUsers by query\n Method: Get\n Endpoint: {Endpoint}", endpoint);
             return _launchApiSteps.Get<T>(endpoint);
         }
     }

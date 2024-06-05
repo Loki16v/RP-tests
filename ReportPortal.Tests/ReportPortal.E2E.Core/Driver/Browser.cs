@@ -2,7 +2,6 @@
 {
     public enum Browser
     {
-        None,
         Chrome,
         Edge
     }

@@ -14,6 +14,8 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient
 
         public T Put<T>(string requestUri, object body);
 
+        public void Put(string url, object body, List<KeyValuePair<string, string>> headers);
+
         public T Delete<T>(string requestUri);
 
         public void Delete(string requestUri);

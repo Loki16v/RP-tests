@@ -4,7 +4,7 @@ using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace ReportPortal.E2E.Core.Logger
 {
-    public class TestsLogger
+    public static class TestsLogger
     {
         public static ILoggerFactory LoggerFactory { get; }
 

@@ -1,5 +1,7 @@
 ﻿using System.Net.Http.Json;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using ReportPortal.E2E.Core.Extensions;
 using ReportPortal.E2E.Core.Models;
 
@@ -54,6 +56,12 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient
         public T Put<T>(string requestUri, object body)
         {
             return _httpClient.PutAsJsonAsync(requestUri, body).Result.GetResponse<T>();
+        }
+        public void Put(string url, object body, List<KeyValuePair<string, string>> headers)
+        {
+            var httpRequest = new HttpRequestMessage(HttpMethod.Put, url);
+            headers.ForEach(x => httpRequest.Headers.Add(x.Key, x.Value));
+            httpRequest.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
         }
 
         public T Delete<T>(string requestUri)

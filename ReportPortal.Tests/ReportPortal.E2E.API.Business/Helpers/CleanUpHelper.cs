@@ -11,19 +11,19 @@ namespace ReportPortal.E2E.API.Business.Helpers
 
         public static void AddProjectId(int id)
         {
-            Log.LogInformation($"Added project Id '{id}' in cleanup list");
+            Log.LogInformation("Added project Id '{Id}' in cleanup list", id);
             ProjectIds.Add(id);
         }
 
         public static void CleanTestData()
         {
-            Log.LogDebug($"Starting cleanup");
+            Log.LogDebug("Starting cleanup");
             foreach (var id in ProjectIds)
             {
-                Log.LogDebug($"Deleting project id: {id}");
+                Log.LogDebug("Deleting project id: {Id}", id);
                 Steps.AsAdminUser().DeleteProject(id);
             }
-            Log.LogDebug($"Cleanup finished");
+            Log.LogDebug("Cleanup finished");
         }
 
         public static void CleanDemoData(string projectName)

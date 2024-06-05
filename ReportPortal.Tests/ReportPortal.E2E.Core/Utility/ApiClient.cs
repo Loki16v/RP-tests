@@ -10,12 +10,14 @@ namespace ReportPortal.E2E.Core.Utility
         public static IHttpClient Get(string baseUrl, AuthorizationMessageHandler authorizationMessageHandler = null)
         {
             var clientName = TestsBootstrap.Instance.Configuration.GetSection("ApiClient").GetValueOrThrow();
-            Enum.TryParse(clientName, out Client apiClient);
+            if (!Enum.TryParse(clientName, out Client apiClient))
+                throw new NotSupportedException($"Available api clients are '{Client.RestClient}' or '{Client.HttpClient}' instead of '{clientName}'");
+
             return apiClient switch
             {
                 Client.HttpClient => authorizationMessageHandler == null ? new HttpClient(baseUrl) : new HttpClient(baseUrl, authorizationMessageHandler),
                 Client.RestClient => authorizationMessageHandler == null ? new RestClient(baseUrl) : new RestClient(baseUrl, authorizationMessageHandler),
-                _ => throw new Exception($"Available api clients are '{Client.RestClient}' or '{Client.HttpClient}' instead of '{clientName}'")
+                _ => throw new NotSupportedException($"Unsupported http client type '{apiClient}'")
             };
         }
 

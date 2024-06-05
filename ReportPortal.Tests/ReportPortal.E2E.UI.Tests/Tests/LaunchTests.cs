@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using NUnit.Framework;
+using ReportPortal.E2E.Core.CustomAttributes;
 
 namespace ReportPortal.E2E.UI.Tests.Tests
 {
@@ -16,7 +17,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             LoginContext.LoginAs(UserName);
         }
 
-        [Test]
+        [Test, TestCaseId("RP-1")]
         public void Sorting_Launches_By_Name()
         {
             NavigationContext.GoToLaunchesPage(Project);
@@ -29,7 +30,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             }
         }
 
-        [Test]
+        [Test, TestCaseId("RP-2")]
         public void Sorting_Launches_By_Start_Time()
         {
             NavigationContext.GoToLaunchesPage(Project);
@@ -42,15 +43,15 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             }
         }
 
-        [Test]
+        [Test, TestCaseId("RP-3")]
         public void Compare_Launches_Modal()
         {
             var expectedModalTitle = "COMPARE LAUNCHES";
 
             NavigationContext.GoToLaunchesPage(Project);
             var launches = LaunchesContext.WaitForReady().GetLaunches();
-            LaunchesContext.ScrollIntoLaunch(launches.Last())
-                .SelectLaunch(launches.Last())
+            LaunchesContext.ScrollIntoLaunch(launches[^1])
+                .SelectLaunch(launches[^1])
                 .SelectLaunch(launches[^2])
                 .ClickCompareButton();
 
@@ -70,7 +71,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         public void Delete_Launch()
         {
             NavigationContext.GoToLaunchesPage(Project);
-            var launchToDelete = LaunchesContext.WaitForReady().GetLaunches().First();
+            var launchToDelete = LaunchesContext.WaitForReady().GetLaunches()[0];
             var launchFullName = launchToDelete.GetName;
             LaunchesContext.DeleteLaunchFromLaunchMenu(launchToDelete).ConfirmDeletion();
 
@@ -84,8 +85,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             var positionY = -100;
 
             NavigationContext.GoToDashboardsPage(Project);
-            DashboardsContext.WaitForReady().GetDashboards().First().Click();
-            var chartToResize = DashboardChartsContext.WaitForReady().GetCharts().First();
+            DashboardsContext.WaitForReady().GetDashboards()[0].Click();
+            var chartToResize = DashboardChartsContext.WaitForReady().GetCharts()[3];
             var initialPosition = DashboardChartsContext.GetPosition(chartToResize);
             var resizedPosition = DashboardChartsContext.ResizeChart(chartToResize, positionX, positionY).GetPosition(chartToResize);
 
@@ -102,8 +103,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
         public void Move_Dashboard()
         {
             NavigationContext.GoToDashboardsPage(Project);
-            DashboardsContext.WaitForReady().GetDashboards().First().Click();
-            var chartToMove = DashboardChartsContext.WaitForReady().GetCharts()[1];
+            DashboardsContext.WaitForReady().GetDashboards()[0].Click();
+            var chartToMove = DashboardChartsContext.WaitForReady().GetCharts()[2];
             var initialPosition = DashboardChartsContext.GetPosition(chartToMove);
             var movedPosition = DashboardChartsContext
                 .MoveChart(chartToMove, initialPosition.Width, initialPosition.Height)
@@ -126,8 +127,8 @@ namespace ReportPortal.E2E.UI.Tests.Tests
 
             NavigationContext.GoToLaunchesPage(Project);
             var launches = LaunchesContext.WaitForReady().GetLaunches();
-            LaunchesContext.ScrollIntoLaunch(launches.Last())
-                .SelectLaunch(launches.Last())
+            LaunchesContext.ScrollIntoLaunch(launches[^1])
+                .SelectLaunch(launches[^1])
                 .SelectLaunch(launches[^2])
                 .ClickCompareButton();
 

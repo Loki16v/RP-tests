@@ -51,20 +51,20 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
 
         public string GetAttribute(string attributeName)
         {
-            Log.LogInformation($"Getting element attribute '{attributeName}'.");
+            Log.LogInformation("Getting element attribute '{AttributeName}'.", attributeName);
             return Element.GetAttribute(attributeName);
         }
 
         public void DragAndDrop(int x, int y)
         {
-            Log.LogInformation($"Perform drag and drop action with coordinates x: '{x}', y: '{y}'.");
+            Log.LogInformation("Perform drag and drop action with coordinates x: '{X}', y: '{Y}'.", x, y);
             new Actions(Driver).DragAndDropToOffset(Element, x, y).Perform();
         }
 
 
         public void ScrollToElement()
         {
-            Log.LogInformation($"Scroll to element.");
+            Log.LogInformation("Scroll to element.");
             if (!IsElementIntoView())
                Driver.ExecuteJavaScript("arguments[0].scrollIntoView(true);", Element);
         }
@@ -84,7 +84,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
 
         public BaseElement WaitUntilAppear()
         {
-            Log.LogInformation($"Wait until element appears.");
+            Log.LogInformation("Wait until element appears.");
             var fluentWait = new DefaultWait<IWebDriver>(Driver)
             {
                 Timeout = TimeSpan.FromSeconds(DefaultTimeout),
@@ -97,7 +97,7 @@ namespace ReportPortal.E2E.UI.Business.CustomElements
 
         public bool WaitUntilDisappear()
         {
-            Log.LogInformation($"Wait until element disappears.");
+            Log.LogInformation("Wait until element disappears.");
             var wait = new DefaultWait<IWebDriver>(Driver)
             {
                 Timeout = TimeSpan.FromSeconds(DefaultTimeout),
