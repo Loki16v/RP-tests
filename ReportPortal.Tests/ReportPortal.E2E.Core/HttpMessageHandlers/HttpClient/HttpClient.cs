@@ -62,7 +62,6 @@ namespace ReportPortal.E2E.Core.HttpMessageHandlers.HttpClient
             var httpRequest = new HttpRequestMessage(HttpMethod.Put, url);
             headers.ForEach(x => httpRequest.Headers.Add(x.Key, x.Value));
             httpRequest.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
-            var t = _httpClient.Send(httpRequest).StatusCode;
         }
 
         public T Delete<T>(string requestUri)
