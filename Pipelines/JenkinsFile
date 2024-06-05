@@ -25,7 +25,7 @@ pipeline {
         booleanParam(name: 'ApiTests', defaultValue: true, description: 'Include API tests in test run')
         booleanParam(name: 'BDDTests', defaultValue: true, description: 'Include BDD tests in test run')
         booleanParam(name: 'UITests', defaultValue: true, description: 'Include UI tests in test run')
-        string(name: 'TestBranch', defaultValue: "feature/0000-ci-cd-task", description: 'Test Automation Framework Branch')
+        string(name: 'TestBranch', defaultValue: "main", description: 'Test Automation Framework Branch')
     }
 
     stages {
