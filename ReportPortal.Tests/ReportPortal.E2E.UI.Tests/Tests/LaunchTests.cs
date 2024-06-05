@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using NUnit.Framework;
+using ReportPortal.E2E.Core.CustomAttributes;
 
 namespace ReportPortal.E2E.UI.Tests.Tests
 {
@@ -16,7 +17,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             LoginContext.LoginAs(UserName);
         }
 
-        [Test]
+        [Test, TestCaseId("RP-1")]
         public void Sorting_Launches_By_Name()
         {
             NavigationContext.GoToLaunchesPage(Project);
@@ -29,7 +30,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             }
         }
 
-        [Test]
+        [Test, TestCaseId("RP-2")]
         public void Sorting_Launches_By_Start_Time()
         {
             NavigationContext.GoToLaunchesPage(Project);
@@ -42,7 +43,7 @@ namespace ReportPortal.E2E.UI.Tests.Tests
             }
         }
 
-        [Test]
+        [Test, TestCaseId("RP-3")]
         public void Compare_Launches_Modal()
         {
             var expectedModalTitle = "COMPARE LAUNCHES";

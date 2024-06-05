@@ -21,7 +21,9 @@ namespace ReportPortal.E2E.Core
                 .AddJsonFile("appsettings.json", true, false)
                 .AddJsonFile("TestUsers.json", true, false)
                 .AddJsonFile("RemoteDriverConfig.json", true, false)
-                .AddJsonFile("LocalDriverConfig.json", true, false);
+                .AddJsonFile("LocalDriverConfig.json", true, false)
+                .AddJsonFile("SlackConfig.json", true, false)
+                .AddJsonFile("JiraConfig.json", true, false);
 
             Configuration = builder.Build();
             ServiceProvider = ConfigureServices();
@@ -63,6 +65,16 @@ namespace ReportPortal.E2E.Core
 
             };
             services.AddSingleton(remoteRunOptionsModel);
+
+            var jiraConfig = new JiraConfig
+            {
+                BaseUrl = Configuration.GetSection("JiraConfig:BaseUrl").Value,
+                Login = Configuration.GetSection("JiraConfig:Login").Value,
+                Password = Configuration.GetSection("JiraConfig:Password").Value,
+                IssueEndpoint = Configuration.GetSection("JiraConfig:IssueEndpoint").Value,
+                IsAutomatedField = Configuration.GetSection("JiraConfig:IsAutomatedField").Value
+            };
+            services.AddSingleton(jiraConfig);
 
             services.AddLogging(builder => builder.AddSerilog(SerilogFactory
                 .CreateSerilogLogger(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Configuration.GetSection("LogsPath").GetValueOrThrow()))));
